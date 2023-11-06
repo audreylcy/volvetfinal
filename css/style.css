@@ -1,0 +1,1247 @@
+
+@import url('https://fonts.googleapis.com/css?family=Cormorant+Garamond');
+
+:root {
+    --darkbrown : #614E41;
+    --middlebrown : #D0B49F;
+    --lightbrown : #E4D4C8;
+    --whitegrey : #E2E6E7;
+}
+
+body {
+    margin: 0px;
+    width: 100vw;
+}
+
+/*navigation style*/
+.navigation {
+    background-color: var(--lightbrown);
+    height: 110px;
+    display: flex;
+    align-items: center;
+    padding: 0px 30px;
+    font-family: 'Inter';
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.navigation ul {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    list-style: none;
+}
+
+.navigation ul li {
+    padding: 0px 15px;
+    font-size: 17px;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: var(--darkbrown);
+
+}
+
+.nav-logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo {
+    max-width: 95px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.right-nav {
+    display: flex;
+    margin-left: auto;
+}
+
+.right-nav img {
+    padding: 0px 18px;
+    width: 25px;
+    cursor: pointer;
+}
+
+/*login style*/
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 75px 0px 100px 0px;
+}
+
+.login p {
+    margin: 0;
+    text-align: left;
+    font-family: 'Inter';
+    font-size: 15px;
+    padding: 5px 0px 0px 0px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form .text-input input {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--darkbrown);
+    background-color: transparent;
+    width: 380px;
+    padding: 20px 5px;
+    margin: 20px 0px;
+    box-sizing: border-box;
+}
+
+.form .text-input input::placeholder {
+    text-align: center;
+    font-size: 14px;
+}
+
+.form .buttons {
+    width: 380px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form .buttons input {
+    border: none;
+    border-radius: 5px;
+    font-family: 'Cormorant Garamond';
+    font-size: 25px;
+    justify-content: space-between;
+    width: 48%;
+    height: 55px;
+}
+
+.buttons .login-button {
+    background-color: var(--lightbrown);
+}
+
+.buttons .login-signup {
+    background-color:var(--darkbrown);
+    color:var(--whitegrey);
+}
+
+/*signup style*/
+.form .buttons input {
+    width: 100%;
+}
+
+.buttons .signup-signup {
+    background-color:var(--darkbrown);
+    color:var(--whitegrey);
+}
+
+.error { 
+    display: block; 
+    color: var(--darkbrown); 
+    font-family: 'Cormorant Garamond'; 
+    margin-top: 2px; /* Add a margin to separate the error message from the input field */ 
+}
+
+/*aboutus style*/
+h1 {
+    font-family: 'Cormorant Garamond';
+    font-weight: 200;
+    font-size: 50px;
+    width: 100%;
+    margin: 0;
+}
+
+.aboutus {
+    padding: 40px 200px 100px 150px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.aboutus-container {
+    display: flex;
+    width: 100%;
+    padding-top: 40px;
+    align-items: center;
+}
+
+.aboutus-left {
+    width: 50%;
+}
+
+.aboutus-right {
+    width: 50%;
+    font-family: 'Inter';
+    font-size: 16px;
+    text-align: justify;
+    line-height: 30px;
+}
+
+/*product style*/
+
+.product-top {
+    display: flex;
+    align-items: center;
+    padding: 40px 150px;
+    font-family: 'Cormorant Garamond';
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.product-top-right {
+    display: flex; 
+    width: 50%; 
+    justify-content: flex-end;
+}
+
+.product-top-right span input {
+    border: none;
+    background-color: transparent;
+    font-family: 'Cormorant Garamond';
+    font-size: 25px;
+    
+}
+
+.product-container {
+    display: flex;
+    align-items: center;    
+    flex-wrap: wrap;
+    padding: 0px 150px 70px 150px;
+}
+
+.product-card {
+    width: calc(33.333%);
+    font-family: 'Cormorant Garamond';
+    text-align: center;
+    justify-content: center;
+    padding: 30px 0px;
+    
+}
+
+.product-card img {
+    width: 90%;
+    height: auto; 
+    cursor: pointer;
+}
+
+h5 {
+    padding: 25px 0px 0px 0px;
+    margin: 0;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+h6 {
+    padding: 5px 0px 0px 0px;
+    margin: 0;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+
+.modal-content {
+    padding: 0px 150px;
+}
+
+.modal-content label {
+    color: var(--darkbrown);
+    font-family: 'Cormorant Garamond';
+    font-size: 20px;
+}
+
+.filter-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category-filter,
+.price-filter {
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-buttons {
+    padding-top: 20px;
+}
+
+.applyfilterButton, .cancelfilterButton {
+    background-color: var(--darkbrown); 
+    color: var(--whitegrey); 
+    padding: 10px 25px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px; 
+    font-family: 'Cormorant Garmont';
+    font-size: 15px;
+  }
+  
+  .applyfilterButton:hover, .cancelfilterButton:hover {
+    background-color: var(--lightbrown); 
+  }
+
+  #minPrice::placeholder,
+  #maxPrice::placeholder {
+    color: var(--lightbrown); /* Placeholder text color */
+    font-style: italic; /* Italicize the placeholder text */
+    
+}
+
+
+/*product-description style*/
+
+.product-deescription-top {
+    display: flex;
+    padding: 130px 150px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.description-left {
+    width: 45%;
+}
+
+.description-image {
+    display: flex;
+}
+
+.description-image img {
+    width: 50%;
+}
+
+.description-left .main {
+    width: 100%;
+}
+
+.description-right {
+    width: 50%;
+    padding: 0px 0px 0px 80px;
+}
+
+.description-title span input {
+    border: none;
+    background-color: var(--lightbrown);
+    color: var(--darkbrown);
+    width: 450px;
+    height: 55px;
+    border-radius: 10px;
+    font-size: 25px;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+}
+
+.description-title span {
+    padding: 20px 0px 80px 0px;
+    display: flex;
+    align-items: center;
+}
+
+h7 {
+    padding: 0;
+    margin: 0;
+    font-size: 25px;
+    font-weight: 400;
+    font-family: 'Cormorant Garamond';
+}
+
+.description-right p {
+    font-family: 'Inter';
+    font-size: 15px;
+    margin: 10px 0px 0px 0px;
+    text-align: justify;
+}
+
+.description-right ul {
+    margin: 0;
+    padding: 0px 0px 0px 20px;
+}
+
+.description-right ul li {
+    font-family: 'Inter';
+    font-size: 15px;
+    margin: 5px 0px 0px 0px;
+    text-align: justify;
+}
+
+.description-sizing {
+    padding: 40px 0px 0px 0px;
+}
+
+h2 {
+    font-family: 'Cormorant Garamond';
+    font-size: 50px;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+}
+
+h3 {
+    font-family: 'Cormorant Garamond';
+    font-size: 30px;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+}
+
+/*description bottom*/
+.description-more {
+    padding: 130px 150px;
+}
+
+.description-more-container {
+    display: flex;
+    align-items: center;    
+    flex-wrap: wrap;
+    justify-content: space-between  ;
+}
+
+.description-more-card {
+    width: calc(20% - 20px); /* 20% width for 5 items in a row with some spacing */
+    font-family: 'Cormorant Garamond';
+    text-align: center;
+    padding: 45px 45px 45px 0px;
+}
+
+.description-more-card img {
+    cursor: pointer;
+}
+
+.product-container {
+    display: flex;
+    align-items: center;    
+    flex-wrap: wrap;
+    padding: 0px 150px 70px 150px;
+}
+
+.product-card {
+    width: calc(33.333%);
+    font-family: 'Cormorant Garamond';
+    text-align: center;
+    justify-content: center;
+    padding: 30px 0px;
+    
+}
+
+.description-more-card img {
+    width: 100%;
+    height: auto;
+}
+
+h8 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Cormorant Garamond';
+}
+
+/*faq style*/
+.faq {
+    padding: 40px 150px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.faq-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+.faq-label {
+    padding: 20px 0px;
+    border: 1px solid var(--darkbrown);
+    border-width: 0px 0px 1px 0px;
+    cursor: pointer;
+    font-size: 28px;
+    font-family: 'Cormorant Garamond';
+}
+
+.faq-label::before {
+    content: '⮟';
+    position: absolute;
+    right: 170px;
+}
+
+.faq-container .faq-content {
+    height: 0;
+    overflow: hidden;
+    transition: 0.5s;
+    font-family: 'Inter';
+    font-size: 16px;
+    padding-top: 20px;
+}
+
+.faq-container.active .faq-content {
+    height: 80px;
+}
+
+/* subscribe style */
+.subscribe {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 600px;
+    background-color: var(--darkbrown);
+}
+
+.subscribe-left {
+    width: 50vw;
+    height: 100%;
+}
+
+.subscribe-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.subscribe-right {
+    width: 30vw;
+    height: 100%;
+    color: var(--whitegrey);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px;
+}
+
+.subscribe-right h4, p, form {
+    margin: 5px 0px;
+}
+
+h4 {
+    font-size: 45px;
+    font-weight: 100;
+    font-family: 'Cormorant Garamond';
+}
+
+.subscribe-right p {
+    font-size: 15px;
+    padding-bottom: 10px;
+    font-family: 'Inter';
+    font-weight: 300;
+}
+
+.subscribe-email input {
+    width: 23vw;
+    padding: 18px 0px;
+    font-size: 16px;
+    background-color: transparent;
+    border-color: var(--whitegrey);
+    border-width: 0px 0px 1px 0px;
+    box-sizing: border-box; 
+    font-family: 'Inter';
+}
+
+.subscribe-email::placeholder {
+    color: rgb(255, 255, 255, 0.5);
+}
+
+.subscribe-submit input {
+    width: 5vw;
+    margin-left: 20px;
+    padding: 18px 0px;
+    background-image: url('../images/icon_right.png');
+    background-repeat: no-repeat;
+    background-size: 0.7vw; /* Ensure the image fits within the button */
+    background-repeat: no-repeat; 
+    background-position: center;
+    text-indent: -9999px; /* Hide the button text */
+    border-radius: 5px;
+    border: 1px solid #fff;
+}
+
+
+/*footer style*/
+.footer {
+    background-color: var(--lightbrown);
+    width: 100vw;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter';
+    font-weight: 300;
+}
+
+.footer-logo {
+    padding: 30px 0px 15px 0px;
+    max-width: 95px;
+}
+
+.footer ul {
+    padding: 0px 70px;
+    margin: 0px 0px 10px 0px;
+}
+
+.footer ul li {
+    padding: 5px 0px;
+    margin: 0px;
+    font-size: 15px;
+    text-decoration: underline; 
+    list-style: none;
+    text-align: center;
+}
+
+.footer-social img {
+    width: 28px;
+    padding: 0px 3px;
+}
+
+.footer-email {
+    font-size: 14px;
+    padding: 3px 0px 25px 0px;
+    margin: 0;
+}
+/* 
+.footer-link {
+    padding: 0px 70px;
+}
+
+.footer img {
+    padding: 40px;
+    max-width: 95px;
+}
+
+.footer-container {
+    display: flex;
+}
+
+h5 {
+    font-size: 22px;
+    margin: 0;
+    padding-bottom: 12px;
+}
+
+.footer ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-link ul li {
+    padding: 5px 0px;
+    margin: 0px;
+    font-size: 18px;
+    text-decoration: none; 
+    list-style: none;
+} */
+
+.product-top {
+    display: flex;
+    align-items: center;
+    padding: 40px 150px;
+    font-family: 'Cormorant Garamond';
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.product-top-right {
+    display: flex; 
+    width: 50%; 
+    justify-content: flex-end;
+}
+
+.product-top-right span input {
+    border: none;
+    background-color: transparent;
+    font-family: 'Cormorant Garamond';
+    font-size: 20px;
+    
+}
+
+h1 {
+    font-weight: 200;
+    font-size: 50px;
+    width: 50%;
+    margin: 0;
+}
+
+/* subscribe style */
+.subscribe {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 600px;
+    background-color: var(--darkbrown);
+}
+
+.subscribe-left {
+    width: 50vw;
+    height: 100%;
+}
+
+.subscribe-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.subscribe-right {
+    width: 30vw;
+    height: 100%;
+    color: var(--whitegrey);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px;
+}
+
+.subscribe-right h4, p, form {
+    margin: 5px 0px;
+}
+
+h4 {
+    font-size: 45px;
+    font-weight: 100;
+    font-family: 'Cormorant Garamond';
+}
+
+.subscribe-right p {
+    font-size: 15px;
+    padding-bottom: 10px;
+    font-family: 'Inter';
+    font-weight: 300;
+}
+
+.subscribe-email input {
+    width: 23vw;
+    padding: 18px 0px;
+    font-size: 16px;
+    background-color: transparent;
+    border-color: var(--whitegrey);
+    border-width: 0px 0px 1px 0px;
+    box-sizing: border-box; 
+    font-family: 'Inter';
+}
+
+.subscribe-email::placeholder {
+    color: rgb(255, 255, 255, 0.5);
+}
+
+.subscribe-submit input {
+    width: 5vw;
+    margin-left: 20px;
+    padding: 18px 0px;
+    background-image: url('../images/icon_right.png');
+    background-repeat: no-repeat;
+    background-size: 0.7vw; /* Ensure the image fits within the button */
+    background-repeat: no-repeat; 
+    background-position: center;
+    text-indent: -9999px; /* Hide the button text */
+    border-radius: 5px;
+    border: 1px solid #fff;
+}
+
+
+/*footer style*/
+.footer {
+    background-color: var(--lightbrown);
+    width: 100vw;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter';
+    font-weight: 300;
+}
+
+.footer-logo {
+    padding: 30px 0px 15px 0px;
+    max-width: 95px;
+}
+
+.footer ul {
+    padding: 0px 70px;
+    margin: 0px 0px 10px 0px;
+}
+
+.footer ul li {
+    padding: 5px 0px;
+    margin: 0px;
+    font-size: 15px;
+    text-decoration: underline; 
+    list-style: none;
+    text-align: center;
+}
+
+.footer-social img {
+    width: 28px;
+    padding: 0px 3px;
+}
+
+.footer-email {
+    font-size: 14px;
+    padding: 3px 0px 25px 0px;
+    margin: 0;
+}
+/* 
+.footer-link {
+    padding: 0px 70px;
+}
+
+.footer img {
+    padding: 40px;
+    max-width: 95px;
+}
+
+.footer-container {
+    display: flex;
+}
+
+h5 {
+    font-size: 22px;
+    margin: 0;
+    padding-bottom: 12px;
+}
+
+.footer ul {
+    padding: 0;
+    margin: 0;
+}
+
+.footer-link ul li {
+    padding: 5px 0px;
+    margin: 0px;
+    font-size: 18px;
+    text-decoration: none; 
+    list-style: none;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*homepage styles*/
+
+.home-banner img {
+    width: 100vw;
+}
+
+.home-banner a {
+    cursor:pointer;
+}
+
+.home-categories {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.home-categories h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category {
+    text-align: center;
+    margin: 10px;
+    display: inline-block;
+    position: relative; 
+}
+
+.category p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2vw;
+    color: var(--whitegrey);
+    z-index: 1;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: text-decoration 0.3s; 
+    text-decoration-color: transparent; 
+}
+
+.category:hover p {
+    text-decoration-color: #fff; 
+}
+
+.category img {
+    width: 16vw;
+    margin: 1vw;
+}
+
+.home-popup img {
+    width:100%;
+    height: auto;
+}
+
+/*cart style*/
+
+.cart-content {
+    padding: 40px 150px;
+}
+.cart-content h3 {
+    color: var(--darkbrown);
+}
+
+.cart-product .cart-header th {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.cart-content p {
+    color: var(--darkbrown);
+    font-family: 'Inter';
+    margin: 0;
+    padding: 20px 0px;
+}
+
+.cart-quantity-buttons {
+    display: inline-flex; 
+    align-items: center; 
+}
+
+.cart-quantity-buttons button {
+    width: 30px;
+    height: 30px;
+    background-color: var(--lightbrown); 
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0; 
+}
+
+.cart-quantity-buttons button:hover {
+    background-color: var(--darkbrown);
+}
+
+.cart-quantity-buttons input {
+
+    border: none;
+    text-align: center;
+    width: 32px;
+    font-size: 16px;
+    color: var(--darkbrown); 
+    font-weight: 300;
+}
+
+.cart-quantity-buttons img {
+    width: 9px;
+    height: 14px;
+}
+
+button:focus, input:focus {
+    outline: 0;
+}
+
+.cart-product {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-product td {
+    padding: 10px;
+
+  }
+
+  .cart-product tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-product th {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .cart-product-info {
+    width: 50%; 
+  }
+
+  
+  .cart-product-quantity {
+    width: 20%;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .cart-product-price {
+    width: 10%; 
+    text-align: center;
+    vertical-align: middle;
+    color: var(--darkbrown);
+    font-size: 60px;
+  }
+
+  .cart-product img {
+    width:20vw;
+  }
+
+  .cart-buttons {
+    text-align: right;
+    padding: 20px 0px; 
+  }
+  
+  .buy-now-button, .continue-shopping-button {
+    background-color: var(--darkbrown); 
+    color: var(--whitegrey); 
+    padding: 10px 25px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px; 
+    font-family: 'Cormorant Garmont';
+    font-size: 20px;
+  }
+  
+  .buy-now-button:hover, .continue-shopping-button:hover {
+    background-color: var(--lightbrown); 
+  }
+  
+
+/*profile styling*/
+
+.profile-account {
+    padding: 40px 150px;
+}
+
+.profile-top {
+    display: flex;
+}
+
+.profile-account-info,
+.profile-address {
+  flex: 1;
+}
+
+.profile-account h3 {
+    font-family: 'Cormorant Garmont';
+}
+
+.profile-account p {
+    font-family: 'Inter';
+    color: var(--darkbrown);
+}
+
+.profile-order-history{
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.profile-order-table {
+    width: 100%; /* Set table width to match the website */
+    border-collapse: collapse; /* Remove spacing between table cells */
+}
+  
+.profile-order-table th {
+    text-align: left; /* Align headers to the left */
+    padding: 10px 5px; /* Add padding for spacing */
+    background-color: var(--whitegrey); /* Add a background color */
+    font-family: 'Inter';
+    font-weight: bold;
+ 
+}
+  
+.profile-order-table td {
+    text-align: left; 
+    padding: 10px 5px; 
+    border-bottom: 2px solid var(--whitegrey);
+    font-family: 'Inter';
+    color: var(--darkbrown);
+   
+}
+
+#order-history-date:nth-child(4) {
+    white-space: pre-line; 
+    padding: 10px;
+}
+  
+  
+/*checkout styling*/
+
+.checkout {
+    padding: 40px 150px;
+    display: flex;
+}
+
+.checkout-left {
+    flex:1;
+}
+
+.checkout-right {
+    flex: 1;
+}
+
+.checkout-address{
+    flex: 1;
+}
+
+.checkout-cartsummary{
+    flex: 1;
+}
+
+.address-form {
+    width: 90%; 
+}
+  
+.form-row1 {
+    width: 96%; 
+    margin-bottom: 10px;
+}
+.form-row2 {
+    width: 96%; 
+    margin-bottom: 10px;
+}
+.form-row4 {
+    width: 100%; 
+    margin-bottom: 10px;
+}
+  
+.form-row3 {
+    display: flex;
+    width: 100%; 
+    margin-bottom: 10px;
+}
+  
+.address-form input, select {
+    margin-bottom: 5px;
+    padding: 10px;
+    width: 100%; 
+    font-family: 'Inter';
+}
+
+select option {
+    font-family: 'Inter';
+}
+
+
+#form-postal {
+    margin-right: 10px; 
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+}
+
+#form-state {
+    margin-left: 10px; 
+}
+  
+input::placeholder {
+    font-family:'Inter';
+}
+  
+.checkout-payment {
+    width: 45%; 
+}
+.payment-option {
+        margin-bottom: 10px;
+        border: 1px solid darkgrey; 
+        padding: 10px; 
+        font-family: 'Inter';
+}
+
+.visa-img img {
+    width: 12vw;
+    padding: 5px;
+}
+
+.paynow-img img {
+    width: 12vw;
+    padding: 5px;
+}
+
+#checkout-button {
+    background-color: var(--lightbrown);
+    color: var(--darkbrown);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 10px;
+    width: 90%;
+    margin: 10px auto;
+    transition: background-color 0.3s;
+}
+
+#checkout-button:hover {
+    background-color: var(--whitegrey);
+}
+.checkout-right{
+    border: 1px solid darkgrey;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.checkout-cartsummary-product {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.checkout-right h3{
+    padding: 10px 20px;
+    color: var(--darkbrown);
+}
+
+.checkout-cartsummary-product h3 {
+    padding: 10px;
+}
+
+.checkout-cartsummary-product p {
+    padding: 10px;
+    font-family: 'Inter';
+    color: var(--darkbrown);
+}
+
+.checkout-cartsummary-product img {
+    width: 14vw;
+}
+
+.checkout-cartsummary-totalprice{
+    padding: 20px;
+    text-align: right;
+    font-family: 'Cormorant Garamond';
+    font-size: 20px;
+}
+
