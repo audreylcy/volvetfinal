@@ -1,8 +1,8 @@
 <?php 
 require_once 'connection.php';
-    session_start();
-    $sessionId = session_id();
-    echo $sessionId;
+session_start();
+$sessionId = session_id();
+echo $sessionId;
     
 ?>
 
@@ -52,20 +52,109 @@ require_once 'connection.php';
             $total = 0;
             $sessionQuery = "SELECT * FROM cart WHERE session_id = '$sessionId'";
             $sessionResult = $conn-> query($sessionQuery);
-            if (isset($_SESSION['user_email']) && $sessionResult->num_rows > 0) {
+            
+
+            // check if user has logged in
+            if (isset($_SESSION['user_email'])) {
                 $user_email = $_SESSION['user_email'];
-                $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) 
+                $orderQuery = "SELECT * FROM orders WHERE user_email = '$user_email'";
+                $orderResult = $conn-> query($orderQuery);
+                
+                if ($sessionResult->num_rows > 0 ) {
+                    $orderRow = $orderResult -> fetch_assoc();
+                    $sessionRow = $sessionResult -> fetch_assoc();
+                    if (isset($orderRow['product_id'], $sessionRow['product_id']) && 
+                        $orderRow['product_id'] == $sessionRow['product_id']){
+                        $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
+                        $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
+                    } else {
+                        $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) 
                               SELECT '$user_email', product_id, quantity, total, product_price
                               FROM cart
                               WHERE session_id = '$sessionId'";
-                $transferItemsResult = $conn-> query($transferItemsQuery); 
+                        $transferItemsResult = $conn-> query($transferItemsQuery); 
+                        $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
+                        $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
+                    }
+
+
+                } else{
+                    if ($orderResult->num_rows > 0){
                 
-            }else {
-                
-                
+        ?>
+            <p>Here are your chosen items, all ready to be yours!</p>
+
+            <table class="cart-product">
+                <tr class="cart-header">
+                    <th></th>
+                    <th>Products</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            <?php   while ($orderRow = mysqli_fetch_assoc($orderResult)) {
+                    
+                    $cartProduct = $orderRow['product_id'];
+                    $productQuery = "SELECT * FROM products WHERE id = $cartProduct";
+                    $productResult = $conn-> query($productQuery);
+                    $productRow = $productResult -> fetch_assoc();
+
+                    $subtotal = $productRow['product_price'] * $orderRow['quantity'];
+                    $total += $subtotal;
+                    $formattedTotal = number_format($total, 2);
+
+            ?>
+                <tr>
+                <td>
+                    <img src="../images/<?php echo $productRow["product_image"]?>" class="cart-product-img">
+                </td>
+                <td class="cart-product-info">
+                    <h3 id="cart-product-title"><?php echo $productRow["product_name"]?></h3>
+                    <p id="cart-product-desc"><?php echo $productRow["product_size"]?></p>
+                </td>
+                <td class="cart-product-quantity">
+                    <div class="cart-quantity-buttons">
+                        <!-- <button class="minus-button" type="button" name="button">
+                            <img src="../images/minus.png" alt="" />
+                        </button> -->
+                        <input type="text" name="name" value="<?php echo $orderRow['quantity']; ?>">
+                        <!-- <button class="plus-button" type="button" name="button">
+                            <img src="../images/plus.png" alt="" />
+                        </button> -->
+                    </div>
+                </td>            
+                <td class="cart-product-price">$<?php echo $orderRow['product_price']; ?></td>
+                </tr>
+                <?php  }
+                ?>
+                <tr class="cart-total">
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td>$<?php echo $formattedTotal; ?></td>
+                </tr>
+            </table>
+            <div class="cart-buttons">
+                <a href="checkout.php"><button class="buy-now-button">Buy Now</button></a>
+                <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>
+            </div>
+
+            <!-- no items in cart  -->
+            <?php } 
+            else {
+            ?>
+                <p>Your cart is empty, start shopping now!</p>
+                <div class="cart-buttons">
+                    <button class="continue-shopping-button">Continue Shopping</button>
+                </div>
+            <?php
             }
-            if ($sessionResult->num_rows > 0){
-            
+        }
+            ?>
+
+
+        <!-- if user has not logged in and using temporary cart  -->
+        <?php
+            }else if ($sessionResult->num_rows > 0){
         ?>
         <p>Here are your chosen items, all ready to be yours!</p>
 
@@ -120,16 +209,18 @@ require_once 'connection.php';
         </table>
             <div class="cart-buttons">
             <?php
-            if (isset($_SESSION['user_email'])) {
-                // If the user is logged in, display the "Buy Now" button with a link to checkout.php
-                echo '<a href="checkout.php"><button class="buy-now-button">Buy Now</button></a>';
-            } else {
-                // If the user is not logged in, display the "Buy Now" button with a link to the login page
-                echo '<a href="login.php"><button class="buy-now-button">Buy Now</button></a>';
-            }
-            ?>
-                <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>
-            </div>
+                if (isset($_SESSION['user_email'])) {
+                    // If the user is logged in, display the "Buy Now" button with a link to checkout.php
+                    echo '<a href="checkout.php"><button class="buy-now-button">Buy Now</button></a>';
+                } else {
+                    // If the user is not logged in, display the "Buy Now" button with a link to the login page
+                    echo '<a href="login.php"><button class="buy-now-button">Buy Now</button></a>';
+                }
+                ?>
+                    <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>
+                </div>
+
+            <!-- no items in cart  -->
             <?php } 
             else {
             ?>
