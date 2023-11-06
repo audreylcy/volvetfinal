@@ -1,6 +1,5 @@
 <?php
 require_once 'connection.php';
-session_start();
 
 if (isset($_GET['query'])) {
     $searchQuery = $_GET['query'];
@@ -8,8 +7,6 @@ if (isset($_GET['query'])) {
     // Perform a database query based on the search query
     $query = "SELECT * FROM products WHERE product_name LIKE '%$searchQuery%'OR category LIKE '%$searchQuery%'";
     $result = $conn->query($query);
-
-
 }
 ?>
 <!DOCTYPE html>
@@ -91,33 +88,41 @@ if (isset($_GET['query'])) {
             }
     
             function filterProducts() {
-                var selectedCategories = document.querySelectorAll('input[name="category"]:checked');
-                var selectedCategoryValues = Array.from(selectedCategories).map(input => input.value);
-    
-                var minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
-                var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
-    
-                var productCards = document.querySelectorAll('.product-card');
-    
-                for (var i = 0; i < productCards.length; i++) {
+            var selectedCategories = document.querySelectorAll('input[name="category"]:checked');
+            var selectedCategoryValues = Array.from(selectedCategories).map(input => input.value);
+
+            var minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+            var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
+
+            var productCards = document.querySelectorAll('.product-card');
+            var noMatchingProducts = true; // Flag to track if no products match the filter criteria
+
+            for (var i = 0; i < productCards.length; i++) {
                 var category = productCards[i].getAttribute('data-category');
                 var price = parseFloat(productCards[i].getAttribute('data-price'));
-    
+
                 var isCategoryMatch = selectedCategoryValues.length === 0 || selectedCategoryValues.includes(category);
                 var isPriceMatch = price >= minPrice && price <= maxPrice;
-                var errorMessage = document.getElementById('nofiltererror-message');
-    
+
                 if (isCategoryMatch && isPriceMatch) {
                     productCards[i].style.display = 'block';
-                    errorMessage.style.display = 'none';
+                    noMatchingProducts = false; // Products match the filter, so set the flag to false
                 } else {
                     productCards[i].style.display = 'none';
-                    errorMessage.style.display = 'block';
                 }
             }
-    
-                closeFilterModal();
+
+            // Display or hide the error message based on the flag
+            var errorMessage = document.getElementById('nofiltererror-message');
+            if (noMatchingProducts) {
+                errorMessage.style.display = 'block'; // Show the error message
+            } else {
+                errorMessage.style.display = 'none'; // Hide the error message
             }
+
+            closeFilterModal();
+        }
+
     
             //search scripts
             document.addEventListener("DOMContentLoaded", function() {
@@ -160,15 +165,7 @@ if (isset($_GET['query'])) {
                     <button type="submit" id="searchButton" disabled><img src="../images/icon_search.png"></button>
                 </form>
                 </div>
-                <?php
-                if (isset($_SESSION['user_email'])) {
-                    // If the user is logged in, display the profile link
-                    echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
-                } else {
-                    // If the user is not logged in, display a login link
-                    echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
-                }
-                ?>
+                
                 <a href="cart.php"><img src="../images/icon_cart.png"></a>
             </div>
         </div>

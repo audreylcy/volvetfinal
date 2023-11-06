@@ -26,7 +26,9 @@ session_start();
         align-items: center;
         justify-content: space-between;
         }
-
+        #nofiltererror-message {
+                padding: 0px 150px;
+            }
         #searchInput {
             width: 150px;
             border: none; /* Remove the default border */
@@ -87,33 +89,41 @@ session_start();
         }
 
         function filterProducts() {
-            var selectedCategories = document.querySelectorAll('input[name="category"]:checked');
-            var selectedCategoryValues = Array.from(selectedCategories).map(input => input.value);
+        var selectedCategories = document.querySelectorAll('input[name="category"]:checked');
+        var selectedCategoryValues = Array.from(selectedCategories).map(input => input.value);
 
-            var minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
-            var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
+        var minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+        var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
 
-            var productCards = document.querySelectorAll('.product-card');
+        var productCards = document.querySelectorAll('.product-card');
+        var noMatchingProducts = true; // Flag to track if no products match the filter criteria
 
-            for (var i = 0; i < productCards.length; i++) {
+        for (var i = 0; i < productCards.length; i++) {
             var category = productCards[i].getAttribute('data-category');
             var price = parseFloat(productCards[i].getAttribute('data-price'));
 
             var isCategoryMatch = selectedCategoryValues.length === 0 || selectedCategoryValues.includes(category);
             var isPriceMatch = price >= minPrice && price <= maxPrice;
-            var errorMessage = document.getElementById('nofiltererror-message');
 
             if (isCategoryMatch && isPriceMatch) {
                 productCards[i].style.display = 'block';
-                errorMessage.style.display = 'none';
+                noMatchingProducts = false; // Products match the filter, so set the flag to false
             } else {
                 productCards[i].style.display = 'none';
-                errorMessage.style.display = 'block';
             }
         }
 
-            closeFilterModal();
+        // Display or hide the error message based on the flag
+        var errorMessage = document.getElementById('nofiltererror-message');
+        if (noMatchingProducts) {
+            errorMessage.style.display = 'block'; // Show the error message
+        } else {
+            errorMessage.style.display = 'none'; // Hide the error message
         }
+
+        closeFilterModal();
+    }
+
 
         //search scripts
         document.addEventListener("DOMContentLoaded", function() {
