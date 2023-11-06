@@ -20,6 +20,53 @@ session_start();
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant+Garamond"/>
 </head>
 <body>
+    <style>
+        .right-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        }
+
+        #searchInput {
+            width: 150px;
+            border: none; /* Remove the default border */
+            border-bottom: 1px solid var(--darkbrown); /* Add a bottom border */
+            background-color: var(--lightbrown);
+        }
+        .search-bar {
+        display: flex;
+        align-items: center;
+        }
+
+        #searchForm {
+            display: flex;
+            align-items: center;
+            border: none; /* Remove the form border */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            background: none; /* Remove default background */
+        }
+        #searchInput {
+            border: none;
+            border-bottom: solid 1px var(--darkbrown);
+            width: 150px;
+            outline: none;
+            width: 150px; /* Set the width as needed */
+            margin-right: 10px; /* Add margin as needed */
+        }
+
+        #searchButton {
+          cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        #searchButton img {
+            width: 25px; /* Set the image size as needed */
+        }
+  </style>
+
     <script>
         // JavaScript function to redirect to a new page
         function productDescription(productId) {
@@ -66,11 +113,24 @@ session_start();
         }
 
         //search scripts
-        function toggleSearchInput() {
-        var searchForm = document.getElementById('searchForm');
-        searchForm.style.display = searchForm.style.display === 'block' ? 'none' : 'block';
-    }
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
 
+            searchInput.addEventListener("input", function() {
+                if (searchInput.value.trim() === "") {
+                    searchButton.disabled = true;
+                } else {
+                    searchButton.disabled = false;
+                }
+            });
+
+            searchButton.addEventListener("click", function() {
+                if (searchInput.value.trim() !== "") {
+                    document.getElementById("searchForm").submit();
+                }
+            });
+        });
     </script>
 
     <div class="navigation">
@@ -88,8 +148,10 @@ session_start();
         
         <div class="right-nav">
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search...">
-                <img src="../images/icon_search.png" id="searchIcon">
+            <form action="search.php" method="get" id="searchForm" class="search-form">
+                <input type="text" name="query" id="searchInput" placeholder="Search">
+                <button type="submit" id="searchButton" disabled><img src="../images/icon_search.png"></button>
+            </form>
             </div>
             
             <?php
@@ -175,7 +237,6 @@ session_start();
         ?>
         </div>
        
-        
     </div>
     
 

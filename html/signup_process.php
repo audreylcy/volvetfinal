@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             // Registration successful; you can create a session here if you want
-            header('Location: profile.html');
+            header('Location: profile.php');
             exit();
         } else {
             // Handle the case where the insertion into the database failed
