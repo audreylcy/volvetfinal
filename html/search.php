@@ -1,5 +1,6 @@
 <?php
 require_once 'connection.php';
+session_start();
 
 if (isset($_GET['query'])) {
     $searchQuery = $_GET['query'];
@@ -7,6 +8,8 @@ if (isset($_GET['query'])) {
     // Perform a database query based on the search query
     $query = "SELECT * FROM products WHERE product_name LIKE '%$searchQuery%'OR category LIKE '%$searchQuery%'";
     $result = $conn->query($query);
+
+
 }
 ?>
 <!DOCTYPE html>
@@ -157,7 +160,15 @@ if (isset($_GET['query'])) {
                     <button type="submit" id="searchButton" disabled><img src="../images/icon_search.png"></button>
                 </form>
                 </div>
-                
+                <?php
+                if (isset($_SESSION['user_email'])) {
+                    // If the user is logged in, display the profile link
+                    echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
+                } else {
+                    // If the user is not logged in, display a login link
+                    echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
+                }
+                ?>
                 <a href="cart.php"><img src="../images/icon_cart.png"></a>
             </div>
         </div>
