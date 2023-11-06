@@ -26,7 +26,9 @@ if (isset($_GET['query'])) {
             align-items: center;
             justify-content: space-between;
             }
-
+            #nofiltererror-message {
+                padding: 0px 150px;
+            }
             #searchInput {
                 width: 150px;
                 border: none;
@@ -100,11 +102,14 @@ if (isset($_GET['query'])) {
     
                 var isCategoryMatch = selectedCategoryValues.length === 0 || selectedCategoryValues.includes(category);
                 var isPriceMatch = price >= minPrice && price <= maxPrice;
+                var errorMessage = document.getElementById('nofiltererror-message');
     
                 if (isCategoryMatch && isPriceMatch) {
                     productCards[i].style.display = 'block';
+                    errorMessage.style.display = 'none';
                 } else {
                     productCards[i].style.display = 'none';
+                    errorMessage.style.display = 'block';
                 }
             }
     
@@ -206,6 +211,10 @@ if (isset($_GET['query'])) {
                 </div>
             </div>
     
+            <div id="nofiltererror-message" style="display: none;">
+            <p>No products match your filter criteria.</p>
+            </div>
+
             <div class="product-container">
             <?php 
             if ($result->num_rows > 0) {

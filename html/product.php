@@ -101,11 +101,14 @@ session_start();
 
             var isCategoryMatch = selectedCategoryValues.length === 0 || selectedCategoryValues.includes(category);
             var isPriceMatch = price >= minPrice && price <= maxPrice;
+            var errorMessage = document.getElementById('nofiltererror-message');
 
             if (isCategoryMatch && isPriceMatch) {
                 productCards[i].style.display = 'block';
+                errorMessage.style.display = 'none';
             } else {
                 productCards[i].style.display = 'none';
+                errorMessage.style.display = 'block';
             }
         }
 
@@ -216,6 +219,10 @@ session_start();
             </div>
         </div>
 
+        <div id="nofiltererror-message" style="display: none;">
+        <p>No products match your filter criteria.</p>
+        </div>
+        
         <div class="product-container">
         <?php
         require_once 'connection.php';
