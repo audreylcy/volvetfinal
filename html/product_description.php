@@ -1,6 +1,7 @@
 <?php 
 
 require_once 'connection.php';
+session_start();
 if(isset($_GET['id'])) {
     $productId = $_GET['id'];
     $query = "SELECT * FROM products WHERE id = $productId";
@@ -12,35 +13,63 @@ $viewproduct = mysqli_query($conn, $query);
 
 
 
-
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
-    $sessionId = session_start();
-    $_SESSION['sessionId'] = $sessionId;
-    $productId = $_POST['product_id'];
-    $quantity = 1; 
-    $totalPrice = 0;
+    if (isset($_SESSION['user_email'])) {
+        $user_email = $_SESSION['user_email'];
+        $productId = $_POST['product_id'];
+        $quantity = 1; 
+        $totalPrice = 0;
 
-    $checkCartQuery = "SELECT * FROM cart WHERE session_id = '$sessionId' AND product_id = $productId";
-    $checkCartResult = $conn->query($checkCartQuery);
-
-    if ($checkCartResult->num_rows > 0) {
-        echo '<script>alert("Product already added to cart!");</script>';
-    } else {
-        $sql = "SELECT * FROM products WHERE id = $productId";
-        $productResult = $conn->query($sql);
-        $productRow = $productResult->fetch_assoc();
-
-        $total = $quantity * $productRow['product_price'];
-        $insertCartQuery = "INSERT INTO cart (session_id, product_id, quantity, total, product_price) VALUES ('$sessionId', {$productRow['id']}, $quantity, $total, {$productRow['product_price']})";
-        if ($conn->query($insertCartQuery) === TRUE) {
-            echo '<script>alert("Product added to cart!");</script>';
+        $checkOrderQuery = "SELECT * FROM orders WHERE user_email = '$user_email' AND product_id = $productId";
+        $checkOrderResult = $conn->query($checkOrderQuery);
+        
+        if ($checkOrderResult->num_rows > 0) {
+            echo '<script>alert("Product already added to cart!");</script>';
         } else {
-            echo "Error: " . $insertCartQuery . "<br>" . $conn->error;
+            $sql = "SELECT * FROM products WHERE id = $productId";
+            $productResult = $conn->query($sql);
+            $productRow = $productResult->fetch_assoc();
+            
+
+
+            $total = $quantity * $productRow['product_price'];
+            $insertOrderQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) VALUES ('$user_email', {$productRow['id']}, '$quantity', '$total', {$productRow['product_price']})";
+
+            if ($conn->query($insertOrderQuery) === TRUE) {
+                echo '<script>alert("Product added to cart!");</script>';
+            } else {
+                echo "Error: " . $insertOrderQuery . "<br>" . $conn->error;
+            }
+        }
+    }
+    else {
+        $sessionId = session_id();
+        $_SESSION['sessionId'] = $sessionId;
+        $productId = $_POST['product_id'];
+        $quantity = 1; 
+        $totalPrice = 0;
+
+        $checkCartQuery = "SELECT * FROM cart WHERE session_id = '$sessionId' AND product_id = $productId";
+        $checkCartResult = $conn->query($checkCartQuery);
+
+        if ($checkCartResult->num_rows > 0) {
+            echo '<script>alert("Product already added to cart!");</script>';
+        } else {
+            $sql = "SELECT * FROM products WHERE id = $productId";
+            $productResult = $conn->query($sql);
+            $productRow = $productResult->fetch_assoc();
+
+            $total = $quantity * $productRow['product_price'];
+            $insertCartQuery = "INSERT INTO cart (session_id, product_id, quantity, total, product_price) VALUES ('$sessionId', {$productRow['id']}, $quantity, $total, {$productRow['product_price']})";
+            if ($conn->query($insertCartQuery) === TRUE) {
+                echo '<script>alert("Product added to cart!");</script>';
+            } else {
+                echo "Error: " . $insertCartQuery . "<br>" . $conn->error;
+            }
         }
     }
      
 }
-
 
 ?>
 

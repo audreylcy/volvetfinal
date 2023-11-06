@@ -930,6 +930,7 @@ h5 {
     font-family: 'Inter';
     margin: 0;
     padding: 20px 0px;
+    font-size: 14px;
 }
 
 .cart-quantity-buttons {
@@ -1010,7 +1011,7 @@ button:focus, input:focus {
     text-align: center;
     vertical-align: middle;
     color: var(--darkbrown);
-    font-size: 60px;
+    font-size: 20px;
   }
 
   .cart-product img {
@@ -1020,6 +1021,10 @@ button:focus, input:focus {
   .cart-buttons {
     text-align: right;
     padding: 20px 0px; 
+  }
+
+  .cart-total {
+    font-size: 20px;
   }
   
   .buy-now-button, .continue-shopping-button {

@@ -1,14 +1,9 @@
 <?php 
 require_once 'connection.php';
     session_start();
-
-    if(isset($_SESSION['sessionId'])) {
-        $sessionId = $_SESSION['sessionId'];
-
-        $sessionQuery = "SELECT * FROM cart WHERE session_id = $sessionId";
-        $sessionResult = $conn-> query($sessionQuery);
-        
-    } 
+    $sessionId = session_id();
+    echo $sessionId;
+    
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +50,22 @@ require_once 'connection.php';
         
         <?php 
             $total = 0;
+            $sessionQuery = "SELECT * FROM cart WHERE session_id = '$sessionId'";
+            $sessionResult = $conn-> query($sessionQuery);
+            if (isset($_SESSION['user_email']) && $sessionResult->num_rows > 0) {
+                $user_email = $_SESSION['user_email'];
+                $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) 
+                              SELECT '$user_email', product_id, quantity, total, product_price
+                              FROM cart
+                              WHERE session_id = '$sessionId'";
+                $transferItemsResult = $conn-> query($transferItemsQuery); 
+                
+            }else {
+                
+                
+            }
             if ($sessionResult->num_rows > 0){
+            
         ?>
         <p>Here are your chosen items, all ready to be yours!</p>
 
@@ -115,7 +125,7 @@ require_once 'connection.php';
                 echo '<a href="checkout.php"><button class="buy-now-button">Buy Now</button></a>';
             } else {
                 // If the user is not logged in, display the "Buy Now" button with a link to the login page
-                echo '<a href="login.php"><button class="buy-now-button">Login to Buy</button></a>';
+                echo '<a href="login.php"><button class="buy-now-button">Buy Now</button></a>';
             }
             ?>
                 <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>

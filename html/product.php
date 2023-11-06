@@ -5,6 +5,8 @@ require_once 'connection.php';
 $query = "SELECT * FROM products";
 $result = $conn->query($query);
 
+session_start();
+
 ?>
 
 <!DOCTYPE html>
