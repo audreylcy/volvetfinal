@@ -50,9 +50,6 @@ echo $sessionId;
         
         <?php 
             $total = 0;
-            $sessionQuery = "SELECT * FROM cart WHERE session_id = '$sessionId'";
-            $sessionResult = $conn-> query($sessionQuery);
-            
 
             // check if user has logged in
             if (isset($_SESSION['user_email'])) {
@@ -60,25 +57,51 @@ echo $sessionId;
                 $orderQuery = "SELECT * FROM orders WHERE user_email = '$user_email'";
                 $orderResult = $conn-> query($orderQuery);
                 
-                if ($sessionResult->num_rows > 0 ) {
-                    $orderRow = $orderResult -> fetch_assoc();
-                    $sessionRow = $sessionResult -> fetch_assoc();
-                    if (isset($orderRow['product_id'], $sessionRow['product_id']) && 
-                        $orderRow['product_id'] == $sessionRow['product_id']){
-                        $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
-                        $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
-                    } else {
-                        $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) 
-                              SELECT '$user_email', product_id, quantity, total, product_price
-                              FROM cart
-                              WHERE session_id = '$sessionId'";
-                        $transferItemsResult = $conn-> query($transferItemsQuery); 
-                        $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
-                        $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
+                if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+                    foreach ($_SESSION['cart'] as $productId => $productDetails) {
+                        $quantity = $productDetails['quantity'];
+                        $productPrice = $productDetails['product_price'];
+                    
+                        $productQuery = "SELECT * FROM products WHERE id = $productId";
+                        $productResult = $conn->query($productQuery);
+                        $productRow = $productResult->fetch_assoc();
+                    
+                        $subtotal = $productPrice * $quantity;
+                        $total += $subtotal;
+                    
+                        // Insert product into the permanent database
+                        $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price)
+                                                VALUES ('$user_email', '$productId', '$quantity', '$subtotal', '$productPrice')";
+                                        
+                    
+                        // Execute the insert query
+                        if ($conn->query($transferItemsQuery) === TRUE) {
+                            unset($_SESSION['cart']);
+                        } else {
+                            echo "Error: " . $transferItemsQuery . "<br>" . $conn->error;
+                        }
                     }
+                }
+                
+                // if ($sessionResult->num_rows > 0 ) {
+                //     $orderRow = $orderResult -> fetch_assoc();
+                //     $sessionRow = $sessionResult -> fetch_assoc();
+                //     if (isset($orderRow['product_id'], $sessionRow['product_id']) && 
+                //         $orderRow['product_id'] == $sessionRow['product_id']){
+                //         $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
+                //         $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
+                //     } else {
+                //         $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) 
+                //               SELECT '$user_email', product_id, quantity, total, product_price
+                //               FROM cart
+                //               WHERE session_id = '$sessionId'";
+                //         $transferItemsResult = $conn-> query($transferItemsQuery); 
+                //         $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
+                //         $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
+                //     }
 
 
-                } else{
+                // } else{
                     if ($orderResult->num_rows > 0){
                 
         ?>
@@ -147,13 +170,15 @@ echo $sessionId;
                 <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>                </div>
             <?php
             }
-        }
+        
             ?>
 
 
         <!-- if user has not logged in and using temporary cart  -->
         <?php
-            }else if ($sessionResult->num_rows > 0){
+            }else 
+            if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+                
         ?>
         <p>Here are your chosen items, all ready to be yours!</p>
 
@@ -164,14 +189,17 @@ echo $sessionId;
                 <th>Quantity</th>
                 <th>Price</th>
             </tr>
-        <?php   while ($sessionRow = mysqli_fetch_assoc($sessionResult)) {
+        <?php   
+            foreach ($_SESSION['cart'] as $productId => $productDetails) {
                 
-                $cartProduct = $sessionRow['product_id'];
-                $productQuery = "SELECT * FROM products WHERE id = $cartProduct";
-                $productResult = $conn-> query($productQuery);
-                $productRow = $productResult -> fetch_assoc();
+                $quantity = $productDetails['quantity'];
+                $productPrice = $productDetails['product_price'];
+                // Display product information here
+                $sql = "SELECT * FROM products WHERE id = $productId";
+                $productResult = $conn->query($sql);
+                $productRow = $productResult->fetch_assoc();
 
-                $subtotal = $productRow['product_price'] * $sessionRow['quantity'];
+                $subtotal = $productPrice * $quantity;
                 $total += $subtotal;
                 $formattedTotal = number_format($total, 2);
 
@@ -189,13 +217,13 @@ echo $sessionId;
                     <!-- <button class="minus-button" type="button" name="button">
                         <img src="../images/minus.png" alt="" />
                     </button> -->
-                    <input type="text" name="name" value="<?php echo $sessionRow['quantity']; ?>">
+                    <input type="text" name="name" value="<?php echo $quantity; ?>">
                     <!-- <button class="plus-button" type="button" name="button">
                         <img src="../images/plus.png" alt="" />
                     </button> -->
                 </div>
             </td>            
-              <td class="cart-product-price">$<?php echo $sessionRow['product_price']; ?></td>
+              <td class="cart-product-price">$<?php echo $productPrice; ?></td>
             </tr>
             <?php  }
             ?>

@@ -41,30 +41,75 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
         }
     }
     else {
-        $sessionId = session_id();
-        $_SESSION['sessionId'] = $sessionId;
+
         $productId = $_POST['product_id'];
-        $quantity = 1; 
-        $totalPrice = 0;
+        $quantity = 1; // Default quantity is 1
 
-        $checkCartQuery = "SELECT * FROM cart WHERE session_id = '$sessionId' AND product_id = $productId";
-        $checkCartResult = $conn->query($checkCartQuery);
+        $sql = "SELECT * FROM products WHERE id = $productId";
+        $productResult = $conn->query($sql);
+        $productRow = $productResult->fetch_assoc();
+        $productPrice = $productRow['product_price'];
 
-        if ($checkCartResult->num_rows > 0) {
-            echo '<script>alert("Product already added to cart!");</script>';
-        } else {
-            $sql = "SELECT * FROM products WHERE id = $productId";
-            $productResult = $conn->query($sql);
-            $productRow = $productResult->fetch_assoc();
-
-            $total = $quantity * $productRow['product_price'];
-            $insertCartQuery = "INSERT INTO cart (session_id, product_id, quantity, total, product_price) VALUES ('$sessionId', {$productRow['id']}, $quantity, $total, {$productRow['product_price']})";
-            if ($conn->query($insertCartQuery) === TRUE) {
-                echo '<script>alert("Product added to cart!");</script>';
-            } else {
-                echo "Error: " . $insertCartQuery . "<br>" . $conn->error;
-            }
+        
+        // Check if the cart array exists in the session
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = array(); // Initialize the cart as an empty array if it doesn't exist
         }
+
+        // Check if the product is already in the cart
+        if (array_key_exists($productId, $_SESSION['cart'])) {
+            echo '<script>alert("Product already added to cart!heyyyyy");</script>'; 
+
+        } else {
+            $_SESSION['cart'][$productId] = array(
+                'quantity' => $quantity,
+                'product_price' => $productPrice);
+            echo '<script>alert("Product added to cart!helllloooo");</script>';
+        }
+
+        // Check if the cart array exists in the session
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $productId => $productDetails) {
+
+                // Retrieve the product details from the database using $productId
+                $sql = "SELECT * FROM products WHERE id = $productId";
+                $productResult = $conn->query($sql);
+                $productRow = $productResult->fetch_assoc();
+                $productPrice = $productRow['product_price'];
+
+                echo "Product ID: $productId, Quantity: $quantity, Price: $productPrice<br>";
+            }
+        } else {
+            echo "Your cart is empty.";
+        }
+
+        
+
+        
+        // $sessionId = session_id();
+        // $_SESSION['sessionId'] = $sessionId;
+        // $productId = $_POST['product_id'];
+        // $quantity = 1; 
+        // $totalPrice = 0;
+
+        // $checkCartQuery = "SELECT * FROM cart WHERE session_id = '$sessionId' AND product_id = $productId";
+        // $checkCartResult = $conn->query($checkCartQuery);
+
+        // if ($checkCartResult->num_rows > 0) {
+        //     echo '<script>alert("Product already added to cart!");</script>';
+        // } else {
+        //     $sql = "SELECT * FROM products WHERE id = $productId";
+        //     $productResult = $conn->query($sql);
+        //     $productRow = $productResult->fetch_assoc();
+
+        //     $total = $quantity * $productRow['product_price'];
+        //     $insertCartQuery = "INSERT INTO cart (session_id, product_id, quantity, total, product_price) VALUES ('$sessionId', {$productRow['id']}, $quantity, $total, {$productRow['product_price']})";
+        //     if ($conn->query($insertCartQuery) === TRUE) {
+        //         echo '<script>alert("Product added to cart!");</script>';
+        //     } else {
+        //         echo "Error: " . $insertCartQuery . "<br>" . $conn->error;
+        //     }
+        // }
     }
      
 }

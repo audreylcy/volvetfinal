@@ -91,9 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script>
         // JavaScript function to redirect to a new page
+        // function productDescription(productId) {
+        //     window.location.href = 'product_description.php?id=' + productId;
+        // }
         function productDescription(productId) {
-            // Replace 'newpage.html' with the URL of the page you want to redirect to
-            window.location.href = 'product_description.php?id=' + productId;
+            alert('Product ID: ' + productId);
         }
 
         //filter scripts 
