@@ -59,9 +59,12 @@ if (isset($_SESSION['user_email'])){
       
     }
     if ($insertOrderDetailResult) {
-      $clearOrderQuery = "DELETE FROM orders WHERE user_email = '{$_SESSION['user_email']}'";
-      $clearOrdertResult = $conn-> query($clearOrderQuery); 
-    }
+        $clearOrderQuery = "DELETE FROM orders WHERE user_email = '{$_SESSION['user_email']}'";
+        $clearOrdertResult = $conn-> query($clearOrderQuery); 
+  
+        $changeQuantity = "UPDATE products SET product_quantity = 0 WHERE id = $product_id";
+        $changeQuantityResult = $conn-> query($changeQuantity); 
+      }
     mysqli_data_seek($orderResult, 0);
     header("Location: profile.php");
   }

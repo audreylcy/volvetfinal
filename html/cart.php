@@ -174,8 +174,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 unset($_SESSION['cart']);
                             }
                         }
+
                     }
                 }
+
                 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteProduct"])) {
                     $productId = $_POST["productId"];
@@ -190,6 +192,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     
                 }
+
+    
 
                 if ($orderResult->num_rows > 0){
                 
@@ -209,10 +213,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     $productQuery = "SELECT * FROM products WHERE id = $cartProduct";
                     $productResult = $conn-> query($productQuery);
                     $productRow = $productResult -> fetch_assoc();
+                    $product_quantity = $productRow['product_quantity'];
+
 
                     $subtotal = $productRow['product_price'] * $orderRow['quantity'];
                     $total += $subtotal;
                     $formattedTotal = number_format($total, 2);
+
+                    if ($product_quantity == 0) {
+                        $clearCartQuery = "DELETE FROM orders WHERE product_id = '$cartProduct' AND user_email = '$user_email'";
+                        $clearCartResult = $conn-> query($clearCartQuery);
+                    }
 
             ?>
                 <tr>
