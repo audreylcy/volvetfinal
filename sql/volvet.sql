@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2023 at 06:35 AM
+-- Generation Time: Nov 07, 2023 at 09:56 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -28,14 +28,22 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `address` (
-  `address_id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `user_email` VARCHAR(255) NOT NULL,
+  `address_id` int(11) NOT NULL,
+  `user_email` varchar(255) NOT NULL,
   `address_1` varchar(255) DEFAULT NULL,
   `address_2` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
   `postal` int(11) DEFAULT NULL,
   `delivery_method` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `address`
+--
+
+INSERT INTO `address` (`address_id`, `user_email`, `address_1`, `address_2`, `state`, `postal`, `delivery_method`) VALUES
+(10, 'ruth142976@gmail.com', 'Kang Ching Road 339B', NULL, 'Singapore', 612339, 'standard'),
+(11, 'ruth142976@gmail.com', 'Kang Ching Road 339B', '#15-336', 'Singapore', 612339, 'standard');
 
 -- --------------------------------------------------------
 
@@ -49,24 +57,28 @@ CREATE TABLE `cart` (
   `quantity` int(11) NOT NULL,
   `total` decimal(10,2) DEFAULT NULL,
   `product_price` decimal(10,2) NOT NULL,
-  `session_id` int(11) NOT NULL
+  `session_id` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `product_id`, `quantity`, `total`, `product_price`, `session_id`) VALUES
+(56, 1, 1, 2100.00, 2100.00, '9mdvuat456onipebierlkio39h');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orderdetail`
+-- Table structure for table `checkout_details`
 --
 
-CREATE TABLE `orderdetail` (
-  `orderdetail_id` int(11) NOT NULL,
-  `order_id` int(11) DEFAULT NOT NULL,
-  `user_id` int(10) UNSIGNED DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `total` decimal(10,2) DEFAULT NULL
+CREATE TABLE `checkout_details` (
+  `checkout_id` int(11) NOT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `total_price` decimal(10,2) DEFAULT NULL,
+  `created_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -77,11 +89,35 @@ CREATE TABLE `orderdetail` (
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
-  `user_id` int(10) UNSIGNED DEFAULT NULL,
   `address_id` int(11) DEFAULT NULL,
   `total` decimal(10,2) DEFAULT NULL,
-  `order_date` timestamp NOT NULL DEFAULT current_timestamp()
+  `user_email` varchar(255) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_price` decimal(10,2) NOT NULL,
+  `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `order_id` int(11) NOT NULL,
+  `checkout_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
+  `product_price` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`order_id`, `checkout_id`, `product_id`, `quantity`, `subtotal`, `product_price`) VALUES
+(51273, 32, 2, 1, 2245.00, 2245.00);
 
 -- --------------------------------------------------------
 
@@ -126,14 +162,34 @@ INSERT INTO `products` (`id`, `product_name`, `product_description`, `product_pr
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `subscribers`
+--
+
+CREATE TABLE `subscribers` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL,
+  `dob` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `password`, `email`, `dob`) VALUES
+(1, '$2y$10$RMB7TQRMxxaIBJxfX5h75.YZUBAQLdMDEemfd4w2okMwl7B8XBNOi', 'ruth142976@gmail.com', '2023-10-14'),
+(2, '$2y$10$ktRY3OLcrUq0R8Kre1aHq.oDkshWVmCm9Bx8NtLd4gneTJ8PvcoTq', 'i200008@e.ntu.edu.sg', '2023-10-13');
 
 --
 -- Indexes for dumped tables
@@ -143,8 +199,7 @@ CREATE TABLE `users` (
 -- Indexes for table `address`
 --
 ALTER TABLE `address`
-  ADD PRIMARY KEY (`address_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`address_id`);
 
 --
 -- Indexes for table `cart`
@@ -153,26 +208,34 @@ ALTER TABLE `cart`
   ADD PRIMARY KEY (`cart_id`);
 
 --
--- Indexes for table `orderdetail`
+-- Indexes for table `checkout_details`
 --
-ALTER TABLE `orderdetail`
-  ADD PRIMARY KEY (`orderdetail_id`),
-  ADD KEY `order_id` (`order_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `product_id` (`product_id`);
+ALTER TABLE `checkout_details`
+  ADD PRIMARY KEY (`checkout_id`);
 
 --
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `user_id` (`user_id`),
   ADD KEY `address_id` (`address_id`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `subscribers`
+--
+ALTER TABLE `subscribers`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -186,22 +249,34 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `address`
+--
+ALTER TABLE `address`
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
--- AUTO_INCREMENT for table `orderdetail`
+-- AUTO_INCREMENT for table `checkout_details`
 --
-ALTER TABLE `orderdetail`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `checkout_details`
+  MODIFY `checkout_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51274;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -210,35 +285,16 @@ ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT for table `subscribers`
+--
+ALTER TABLE `subscribers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `address`
---
-ALTER TABLE `address`
-  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `orderdetail`
---
-ALTER TABLE `orderdetail`
-  ADD CONSTRAINT `orderdetail_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
-  ADD CONSTRAINT `orderdetail_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `orderdetail_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `cart` (`product_id`);
-
---
--- Constraints for table `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`);
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

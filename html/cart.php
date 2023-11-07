@@ -144,8 +144,7 @@ echo $sessionId;
             ?>
                 <p>Your cart is empty, start shopping now!</p>
                 <div class="cart-buttons">
-                    <button class="continue-shopping-button">Continue Shopping</button>
-                </div>
+                <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>                </div>
             <?php
             }
         }
@@ -226,7 +225,7 @@ echo $sessionId;
             ?>
                 <p>Your cart is empty, start shopping now!</p>
                 <div class="cart-buttons">
-                    <button class="continue-shopping-button">Continue Shopping</button>
+                    <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>
                 </div>
             <?php
             }

@@ -30,8 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
             $productResult = $conn->query($sql);
             $productRow = $productResult->fetch_assoc();
             
-
-
             $total = $quantity * $productRow['product_price'];
             $insertOrderQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) VALUES ('$user_email', {$productRow['id']}, '$quantity', '$total', {$productRow['product_price']})";
 

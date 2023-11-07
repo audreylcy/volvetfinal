@@ -26,6 +26,14 @@ if ($result->num_rows > 0) {
     // Handle the case where the user's data is not found
     die("User not found");
 }
+
+$addressQuery = "SELECT * FROM address WHERE user_email = '$user_email'";
+$addressResult = $conn -> query($addressQuery);
+$addressRow = $addressResult->fetch_assoc();
+
+$checkoutQuery = "SELECT * FROM checkout_details WHERE user_email = '$user_email'";
+$checkoutResult = $conn -> query($checkoutQuery);
+
 ?>
 
 <!DOCTYPE html>
@@ -68,21 +76,24 @@ if ($result->num_rows > 0) {
         <div class="profile-top">
             <div class="profile-account-info">
                 <h3>Account Information</h3>
-                <p>Name: <?php echo $userData['email']; ?></p>
-                <p>DOB: <?php echo $userData['dob']; ?></p>
+                <p><b>Name:</b> <?php echo $userData['email']; ?></p>
+                <p><b>DOB:</b> <?php echo $userData['dob']; ?></p>
             </div>
             <div class="profile-address">
                 <h3>Addresses</h3>
-                <p id="billing-address">Billing Address: ABC Street</p>
-                <p id="shipping-address">Shipping Address: DEF Street</p>
+                <p id="address_1"><?php echo $addressRow['address_1']?></p>
+                <p id="address_2"><?php echo $addressRow['address_2']?></p>
+                <p id="postal"><?php echo $addressRow['postal']?></p>
+                <p id="state"><?php echo $addressRow['state']?></p>
+
             </div>
         </div>
 
-        <div class="profile-bottom">
+        <!-- <div class="profile-bottom">
             <h3>Reward Points</h3>
             <p>232</p>
             <p>Expiring on: 2/3/2023</p>
-        </div>
+        </div> -->
 
         <div class="profile-order-history">
             <h3>Order History</h3>
@@ -91,30 +102,48 @@ if ($result->num_rows > 0) {
               <tr>
                 <th>Date</th>
                 <th>Order</th>
-                <th>Order Status</th>
+                <th>Shipping Method</th>
                 <th>Items</th>
                 <th>Total</th>
               </tr>
             </thead>
+            <?php 
+                while ($checkoutRow = mysqli_fetch_assoc($checkoutResult)) {
+                    $checkout_id = $checkoutRow['checkout_id'];
+                    $orderDetailsQuery = "SELECT * FROM order_details WHERE checkout_id = '$checkout_id'";
+                    $orderDetailsResult = $conn -> query($orderDetailsQuery);
+                    if($orderDetailsResult->num_rows > 0) {
+
+            ?>
             <tbody>
-              <tr>
-                <td id="order-history-date">2023/10/17</td>
-                <td id="order-history-date">#12345</td>
-                <td id="order-history-date">Payment Received</td>
-                <td id="order-history-date">LV Vintage Bag <br> Dior Saddle Bag</td>
-                <td id="order-history-date">SGD $200</td>
-              </tr>
-              <tr>
-                <td id="order-history-date">2023/10/16</td>
-                <td id="order-history-date">#12344</td>
-                <td id="order-history-date">Payment Received</td>
-                <td id="order-history-date">LV Vintage Bag <br> Dior Saddle Bag</td>
-                <td id="order-history-date">SGD $350</td>
+              <tr class="profile-order-details" >
+                    <td rowspan="<?php echo mysqli_num_rows($orderDetailsResult); ?>"><?php echo $checkoutRow['created_at']; ?></td>
+                    <td rowspan="<?php echo mysqli_num_rows($orderDetailsResult); ?>">#<?php echo $checkoutRow['checkout_id']; ?></td>
+                    <td rowspan="<?php echo mysqli_num_rows($orderDetailsResult); ?>"><?php echo $addressRow['delivery_method']; ?></td>
+                <?php
+                while ($orderDetailsRow = mysqli_fetch_assoc($orderDetailsResult)){ 
+                    $orderProductId = $orderDetailsRow['product_id'];
+                    $productQuery = "SELECT * FROM products WHERE id = '$orderProductId'";
+                    $productResult = $conn -> query($productQuery);
+                    $productRow = $productResult -> fetch_assoc();
+                ?>
+                
+                <td class="product-id-column"><?php echo $productRow['product_name']; ?></td>
+                <?php
+                    }
+                ?>
+                <td class="product-price-column">$<?php echo $checkoutRow['total_price']; ?></td>
+            
+                    
               </tr>
             </tbody>
+            <?php 
+                }
+            }
+            ?>
           </table>
           <form action="logout.php" class="profile-logout" method="post">
-            <input type="submit" value="Logout">
+            <input class="logout-button" type="submit" value="Logout">
           </form>
         </div>      
     </div>
@@ -135,5 +164,21 @@ if ($result->num_rows > 0) {
         <p class="footer-email">contactus@volvet.com</p>
         <p> <small>©2023 Volvet All Rights Reserved.</small> </p>
     </div>
+    
+<style>
+  
+
+  .product-id-column {
+    flex: 1;
+    height: 50px; /* Set a fixed height for each row */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+  }
+</style>
+</body>
+                
+</html>
 
 

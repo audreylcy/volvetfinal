@@ -348,7 +348,7 @@ h6 {
 h7 {
     padding: 0;
     margin: 0;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 400;
     font-family: 'Cormorant Garamond';
 }
@@ -378,7 +378,7 @@ h7 {
 
 h2 {
     font-family: 'Cormorant Garamond';
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 500;
     padding: 0;
     margin: 0;
@@ -1060,6 +1060,8 @@ button:focus, input:focus {
 }
 
 .profile-account h3 {
+    font-size: 25px;
+    padding: 15px 0px;
     font-family: 'Cormorant Garmont';
 }
 
@@ -1086,7 +1088,7 @@ button:focus, input:focus {
  
 }
   
-.profile-order-table td {
+.profile-order-details {
     text-align: left; 
     padding: 10px 5px; 
     border-bottom: 2px solid var(--whitegrey);
@@ -1098,6 +1100,26 @@ button:focus, input:focus {
 #order-history-date:nth-child(4) {
     white-space: pre-line; 
     padding: 10px;
+}
+
+.profile-logout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0px;
+}
+
+.logout-button {
+    background-color: var(--darkbrown); 
+    color: var(--whitegrey); 
+    padding: 10px 25px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px; 
+    font-family: 'Cormorant Garmont';
+    font-size: 20px;
 }
   
   
@@ -1118,6 +1140,10 @@ button:focus, input:focus {
 
 .checkout-address{
     flex: 1;
+}
+
+.checkout-address h3 {
+    padding: 10px 0px;
 }
 
 .checkout-cartsummary{
@@ -1145,6 +1171,17 @@ button:focus, input:focus {
     display: flex;
     width: 100%; 
     margin-bottom: 10px;
+}
+
+.form-row3-error{
+    display: flex;
+    width: 100%; 
+}
+
+.form-row3-error span {
+    width: 50%;
+    margin-bottom: 10px;
+
 }
   
 .address-form input, select {
