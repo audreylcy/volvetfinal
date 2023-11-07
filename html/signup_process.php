@@ -36,9 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('sss', $email, $hashedPassword, $dob);
 
         if ($stmt->execute()) {
-            // Registration successful; you can create a session here if you want
-            header('Location: profile.php');
+            // Registration successful
+            echo '<script>alert("You have successfully registered! Please login!"); window.location.href = "login.php";</script>';
             exit();
+        
         } else {
             // Handle the case where the insertion into the database failed
             header('Location: signup.php?error=registrationfailed');

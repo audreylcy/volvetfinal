@@ -1,10 +1,12 @@
 <?php 
 require_once 'connection.php';
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 session_start();
 $sessionId = session_id();
-echo $sessionId;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
 
     // Check if the email already exists in the database
@@ -112,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="event.html">EVENTS</a></li>
+                <li><a href="events.php">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
@@ -177,9 +179,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteProduct"])) {
                     $productId = $_POST["productId"];
+                    $userEmail = $_SESSION['user_email'];
+
                     
                     $clearCartQuery = "DELETE FROM orders WHERE product_id = '$productId' AND user_email = '$userEmail'";
                     $clearCartResult = $conn-> query($clearCartQuery);
+
+                    if ($clearCartResult) {
+                        echo '<script>alert("deleted");</script>';
+                    }
                     
                 }
 
@@ -265,6 +273,25 @@ document.addEventListener("DOMContentLoaded", function () {
         <?php
             }else 
             if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteProduct"])) {
+                    $productId = $_POST["productId"];
+    
+                    if (isset($_SESSION['cart'][$productId])) {
+                        unset($_SESSION['cart'][$productId]);
+                        echo '<script>alert("deleted");</script>';
+    
+                        if (empty($_SESSION['cart'])) {
+            ?>
+                        <p>Your cart is empty, start shopping now!</p>
+                                <div class="cart-buttons">
+                                    <a href="product.php"><button class="continue-shopping-button">Continue Shopping</button></a>
+                                </div>
+                        <?php exit();
+                        }
+    
+                    }
+      
+                }
                 
         ?>
         <p>Here are your chosen items, all ready to be yours!</p>
@@ -276,16 +303,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <th>Quantity</th>
                 <th>Price</th>
             </tr>
-        <?php   
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteProduct"])) {
-                $productId = $_POST["productId"];
+            <?php   
 
-                if (isset($_SESSION['cart'][$productId])) {
-                    unset($_SESSION['cart'][$productId]);
-                }
 
-                
-            }
             foreach ($_SESSION['cart'] as $productId => $productDetails) {
                 
                 $quantity = $productDetails['quantity'];
@@ -298,6 +318,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 $subtotal = $productPrice * $quantity;
                 $total += $subtotal;
                 $formattedTotal = number_format($total, 2);
+
+
+
 
                 
 
@@ -322,12 +345,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </td>            
               <td class="cart-product-price">$<?php echo $productPrice; ?></td>
-            </tr>
-            <td class="cart-product-delete"> 
-                    <form>
-                    <button class="delete-button" type="submit">X</button> 
+              <td class="cart-product-delete"> 
+                    <form action="cart.php" method="post">
+                    <input type="hidden" name="productId" value="<?php echo $productId; ?>">
+                    <button class="delete-button" type="submit" name="deleteProduct">X</button> 
                     </form>
             </td>
+            </tr>
+            
             <?php  }
             ?>
             <tr class="cart-total">
@@ -380,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
                 <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
-                <span class="subscribe-submit"><input type="submit" value="submit"></span>
+                <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">
             <p id="subscription-message"></p>

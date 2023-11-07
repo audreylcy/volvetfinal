@@ -1,11 +1,13 @@
 <?php
-require_once 'connection.php';
+// Start the session at the beginning of your script
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-// Start the session at the beginning of your script
+
 session_start();
 
 $sessionId = session_id();
+require_once 'connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
@@ -27,39 +29,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     }
 }
 
+
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"]) && isset($_POST["name"])) {
+    $email = $_POST["email"];
+    $name = $_POST["name"];
+
+    // Check if the email is already registered for any event
+    $sql = "SELECT * FROM eventsignup WHERE user_email = '$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $_SESSION["registration_message"] = "You are already registered for an event!";
+    } else {
+        // Insert the new registration into the database
+        $insertSql = "INSERT INTO eventsignup (user_name, user_email) VALUES ('$name', '$email')";
+        if (mysqli_query($conn, $insertSql)) {
+            $_SESSION["registration_message"] = "You have successfully registered for the event!";
+        } else {
+            $_SESSION["registration_message"] = "An error occurred. Please try again later.";
+        }
+    }
+}
+
+
 ?>
 
-<!DOCTYPE html>
+
+
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volvet</title>
+    <title>Event Booking</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css" /> 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant+Garamond"/>
+    <script src="../javascript/faq.js"></script>
 </head>
 <body>
     <script>
-        //search scripts
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById("searchInput");
-            const searchButton = document.getElementById("searchButton");
+        //event scripts
+       
+    // Display the registration message
+    document.addEventListener("DOMContentLoaded", function () {
+        // Check if the session variable is set
+        if ("registration_message" in <?php echo json_encode($_SESSION); ?>) {
+            // Display the message in the registration message container
+            var registrationMessage = <?php echo json_encode($_SESSION["registration_message"]); ?>;
+            var messageContainer = document.getElementById("registration-message");
 
-            searchInput.addEventListener("input", function() {
-                if (searchInput.value.trim() === "") {
-                    searchButton.disabled = true;
-                } else {
-                    searchButton.disabled = false;
-                }
-            });
+            if (messageContainer) {
+                // Set the message
+                messageContainer.textContent = registrationMessage;
+            }
 
-            searchButton.addEventListener("click", function() {
-                if (searchInput.value.trim() !== "") {
-                    document.getElementById("searchForm").submit();
-                }
-            });
-        });
+            // Clear the session variable (if needed)
+            <?php unset($_SESSION["registration_message"]); ?>;
+        }
+    });
+
 
         //subscribe scripts 
 document.addEventListener("DOMContentLoaded", function () {
@@ -82,11 +113,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Clear the session variable (if needed)
-        <?php unset($_SESSION["subscription_message"]); ?>;
+        <?php unset($_SESSION["subscription_message"]); ?>
     }
 });
-    </script>
 
+        //search scripts
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+
+            searchInput.addEventListener("input", function() {
+                if (searchInput.value.trim() === "") {
+                    searchButton.disabled = true;
+                } else {
+                    searchButton.disabled = false;
+                }
+            });
+
+            searchButton.addEventListener("click", function() {
+                if (searchInput.value.trim() !== "") {
+                    document.getElementById("searchForm").submit();
+                }
+            });
+        });
+    </script>
     <div class="navigation">
         <nav>
             <ul>
@@ -117,54 +167,26 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     </div>
 
-    <div class="home-banner">
-        <a href="product.php">
-            <img src="../images/home_banner.png">
-        </a>
-    </div>
+    <div class="aboutus">
+        <h1>UPCOMING EVENT</h1>
+        <div class="aboutus-container">
+            <div class="aboutus-left">
+                <img src="../images/events_img.png">
+            </div>
+            <div class="aboutus-right">
+    <h2>Warehouse Sale</h2>
+    <p>Date: January 1, 2024</p>
+    <p>Location: ION Orchard Volvet Popup</p>
+    <br>
+    <h2>Event Details</h2>
+    <p>Discover a world of opulence at the Grand Luxe Warehouse Sale, where luxury meets affordability! Join us for an exclusive shopping experience that unveils a treasure trove of high-end fashion, accessories, and lifestyle items—all at unbeatable prices.</p>
+    
 
-    <div class="home-categories">
-        <h1>CATEGORIES</h1>
-        <div class="categories">
-        <div class="category">
-            <a href="product.php?categories=Watch">
-            <p>Watches</p>
-            </a>
-            <img src="../images/home_watches.png">
-        </div>
-        <div class="category">
-            <a href="product.php?categories=Bag">
-            <p>Bags</p>
-            </a>
-            <img src="../images/home_bags.png">
-        </div>
-        <div class="category">
-            <a href="product.php?categories=Shoe">
-            <p>Shoes</p>
-            </a>
-            <img src="../images/home_shoes.png">
-        </div>
-        <div class="category">
-            <a href="product.php?categories=Jewellery">
-            <p>Jewellery</p>
-            </a>
-            <img src="../images/home_jewellery.png">
-        </div>
-        <div class="category">
-            <a href="product.php?categories=Accessory">
-            <p>Accesories</p>
-            </a>
-            <img src="../images/home_accessories.png">
+    <p id="registration-message"></p>
+</div>
         </div>
     </div>
-    </div>
-
-    <div class="home-popup">
-        <a href="events.php">
-        <img src="../images/home_popup.png">
-        </a>
-    </div>
-
+    
     <div class="subscribe">
         <div class="subscribe-left">
             <img src="../images/footer.png">
@@ -176,13 +198,14 @@ document.addEventListener("DOMContentLoaded", function () {
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
                 <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
-                <span class="subscribe-submit"><input type="submit" value="submit"></span>
+                <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">
             <p id="subscription-message"></p>
         </div>
         </div>
     </div>
+
     
     <div class="footer">
         <img src="../images/Volvet.png" class="footer-logo">
@@ -199,4 +222,4 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <p class="footer-email">contactus@volvet.com</p>
         <p> <small>©2023 Volvet All Rights Reserved.</small> </p>
-    </div>
+   

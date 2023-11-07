@@ -84,7 +84,7 @@ if (isset($_SESSION['user_email'])){
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="event.html">EVENTS</a></li>
+                <li><a href="events.php">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>

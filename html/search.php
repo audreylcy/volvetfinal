@@ -9,8 +9,7 @@ if (isset($_GET['query'])) {
     $result = $conn->query($query);
     
 }
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
 
     // Check if the email already exists in the database
@@ -118,36 +117,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             });
 
             //subscribe scripts 
-document.addEventListener("DOMContentLoaded", function () {
-    // Check if the session variable is set
-    if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-        // Display the message in the subscription message container
-        var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
-        var messageContainer = document.getElementById("subscription-message-container");
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if the session variable is set
+            if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
+                // Display the message in the subscription message container
+                var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
+                var messageContainer = document.getElementById("subscription-message-container");
 
-        if (messageContainer) {
-            // Set the message and make the container visible
-            messageContainer.innerHTML = subscriptionMessage;
-            messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
+                if (messageContainer) {
+                    // Set the message and make the container visible
+                    messageContainer.innerHTML = subscriptionMessage;
+                    messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
 
-            // Scroll to the position of the message container
-            window.scrollTo({
-                top: messageContainer.offsetTop,
-                behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
-            });
-        }
+                    // Scroll to the position of the message container
+                    window.scrollTo({
+                        top: messageContainer.offsetTop,
+                        behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
+                    });
+                }
 
-        // Clear the session variable (if needed)
-        <?php unset($_SESSION["subscription_message"]); ?>;
-    }
-});
+                // Clear the session variable (if needed)
+                <?php unset($_SESSION["subscription_message"]); ?>;
+            }
+        });
         </script>
     
         <div class="navigation">
             <nav>
                 <ul>
                     <li><a href="product.php">SHOP ALL</a></li>
-                    <li><a href="event.html">EVENTS</a></li>
+                    <li><a href="events.php">EVENTS</a></li>
                     <li><a href="faq.php">FAQ</a></li>
                 </ul>
             </nav>
@@ -160,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <button type="submit" id="searchButton" disabled><img src="../images/icon_search.png"></button>
                 </form>
                 </div>
-                
+                <a href="profile.php"><img src="../images/icon_profile.png"></a>
                 <a href="cart.php"><img src="../images/icon_cart.png"></a>
             </div>
         </div>
@@ -249,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
                 <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
-                <span class="subscribe-submit"><input type="submit" value="submit"></span>
+                <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">
             <p id="subscription-message"></p>

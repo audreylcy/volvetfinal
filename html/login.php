@@ -10,25 +10,7 @@ $sessionId = session_id();
 // Include your database connection code here
 require 'connection.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["subscribe-email"];
 
-    // Check if the email already exists in the database
-    $sql = "SELECT * FROM subscribers WHERE email = '$email'";
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-        $_SESSION["subscription_message"] = "You are already subscribed!";
-    } else {
-        // Insert the new email into the database
-        $insertSql = "INSERT INTO subscribers (email) VALUES ('$email')";
-        if (mysqli_query($conn, $insertSql)) {
-            $_SESSION["subscription_message"] = "You have subscribed to our mailing list!";
-        } else {
-            $_SESSION["subscription_message"] = "An error occurred. Please try again later.";
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -42,14 +24,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant+Garamond"/>
 </head>
 <body>
-    <div>   
-        <p>Session ID: <?php echo $sessionId; ?></p>
-    </div>
+    <style>
+        .login-signup {
+            border: none;
+    border-radius: 5px;
+    font-family: 'Cormorant Garamond';
+    font-size: 25px;
+    justify-content: space-between;
+    width: 100%;
+    height: 55px;
+    background-color: var(--lightbrown);
+}
+    </style>
+
     <div class="navigation">
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="event.html">EVENTS</a></li>
+                <li><a href="events.php">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
@@ -82,11 +74,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input class="login-button" type="submit" value="Login">
                 </span>
             </form>
+            <br>
+            <h7>Don't have an account?</h7>
             <input class="login-signup" type="button" value="Sign Up" onclick="window.location.href='signup.php'">
         </div>
     </div>
     
-    <div class="subscribe">
+    <!--<div class="subscribe">
         <div class="subscribe-left">
             <img src="../images/footer.png">
         </div>
@@ -103,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p id="subscription-message"></p>
         </div>
         </div>
-    </div>
+    </div>-->
     
     <div class="footer">
         <img src="../images/Volvet.png" class="footer-logo">
@@ -160,30 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-//subscribe scripts 
-document.addEventListener("DOMContentLoaded", function () {
-    // Check if the session variable is set
-    if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-        // Display the message in the subscription message container
-        var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
-        var messageContainer = document.getElementById("subscription-message-container");
 
-        if (messageContainer) {
-            // Set the message and make the container visible
-            messageContainer.innerHTML = subscriptionMessage;
-            messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
-
-            // Scroll to the position of the message container
-            window.scrollTo({
-                top: messageContainer.offsetTop,
-                behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
-            });
-        }
-
-        // Clear the session variable (if needed)
-        <?php unset($_SESSION["subscription_message"]); ?>;
-    }
-});
     </script>
 </body>
 </html>

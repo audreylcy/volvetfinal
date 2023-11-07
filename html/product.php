@@ -6,7 +6,7 @@ $result = $conn->query($query);
 
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
 
     // Check if the email already exists in the database
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="event.html">EVENTS</a></li>
+                <li><a href="events.php">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
                 <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
-                <span class="subscribe-submit"><input type="submit" value="submit"></span>
+                <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">
             <p id="subscription-message"></p>

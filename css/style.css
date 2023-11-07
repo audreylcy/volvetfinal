@@ -166,6 +166,17 @@ width: 25px; /* Set the image size as needed */
     height: 55px;
 }
 
+.login-signup {
+    border: none;
+border-radius: 5px;
+font-family: 'Cormorant Garamond';
+font-size: 25px;
+justify-content: space-between;
+width: 100%;
+height: 55px;
+background-color: var(--lightbrown);
+}
+
 .buttons .login-button {
     background-color: var(--lightbrown);
 }

@@ -6,10 +6,10 @@ session_start();
 $sessionId = session_id();
 require 'connection.php';
 
-//if (!isset($_SESSION['user_email'])) {
-    //header('Location: login.php?error=notloggedin');
-    //exit();
-//}
+if (!isset($_SESSION['user_email'])) {
+    header('Location: login.php?error=notloggedin');
+    exit();
+}
 
 $user_email = $_SESSION['user_email'];
 
@@ -68,14 +68,12 @@ $checkoutResult = $conn -> query($checkoutQuery);
             });
         });
     </script>
-    <div>   
-        <p>Session ID: <?php echo $sessionId; ?></p>
-    </div>
+
     <div class="navigation">
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="event.html">EVENTS</a></li>
+                <li><a href="events.php">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
