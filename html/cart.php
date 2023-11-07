@@ -175,26 +175,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 }
                 
-                // if ($sessionResult->num_rows > 0 ) {
-                //     $orderRow = $orderResult -> fetch_assoc();
-                //     $sessionRow = $sessionResult -> fetch_assoc();
-                //     if (isset($orderRow['product_id'], $sessionRow['product_id']) && 
-                //         $orderRow['product_id'] == $sessionRow['product_id']){
-                //         $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
-                //         $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
-                //     } else {
-                //         $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price) 
-                //               SELECT '$user_email', product_id, quantity, total, product_price
-                //               FROM cart
-                //               WHERE session_id = '$sessionId'";
-                //         $transferItemsResult = $conn-> query($transferItemsQuery); 
-                //         $clearTemporaryCartQuery = "DELETE FROM cart WHERE session_id = '$sessionId'";
-                //         $clearTemporaryCartResult = $conn-> query($clearTemporaryCartQuery); 
-                //     }
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteProduct"])) {
+                    $productId = $_POST["productId"];
+                    
+                    $clearCartQuery = "DELETE FROM orders WHERE product_id = '$productId' AND user_email = '$userEmail'";
+                    $clearCartResult = $conn-> query($clearCartQuery);
+                    
+                }
 
-
-                // } else{
-                    if ($orderResult->num_rows > 0){
+                if ($orderResult->num_rows > 0){
                 
         ?>
             <p>Here are your chosen items, all ready to be yours!</p>
@@ -239,8 +228,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 </td>            
                 <td class="cart-product-price">$<?php echo $orderRow['product_price']; ?></td>
                 <td class="cart-product-delete"> 
-                    <form>
-                    <button class="delete-button" type="submit">X</button> 
+                    <form action="cart.php" method="post">
+                        <input type="hidden" name="productId" value="<?php echo $cartProduct; ?>">
+                        <button class="delete-button" type="submit" name="deleteProduct">X</button> 
                     </form>
                 </td>
                 </tr>
@@ -287,6 +277,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 <th>Price</th>
             </tr>
         <?php   
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteProduct"])) {
+                $productId = $_POST["productId"];
+
+                if (isset($_SESSION['cart'][$productId])) {
+                    unset($_SESSION['cart'][$productId]);
+                }
+
+                
+            }
             foreach ($_SESSION['cart'] as $productId => $productDetails) {
                 
                 $quantity = $productDetails['quantity'];
@@ -299,6 +298,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 $subtotal = $productPrice * $quantity;
                 $total += $subtotal;
                 $formattedTotal = number_format($total, 2);
+
+                
 
         ?>
             <tr>
@@ -322,6 +323,11 @@ document.addEventListener("DOMContentLoaded", function () {
             </td>            
               <td class="cart-product-price">$<?php echo $productPrice; ?></td>
             </tr>
+            <td class="cart-product-delete"> 
+                    <form>
+                    <button class="delete-button" type="submit">X</button> 
+                    </form>
+            </td>
             <?php  }
             ?>
             <tr class="cart-total">

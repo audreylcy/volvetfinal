@@ -41,10 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <script>
-        // JavaScript function to redirect to a new page
-        // function productDescription(productId) {
-        //     window.location.href = 'product_description.php?id=' + productId;
-        // }
+        
         function productDescription(productId) {
             // Replace 'newpage.html' with the URL of the page you want to redirect to
             window.location.href = 'product_description.php?id=' + productId;
@@ -300,12 +297,22 @@ document.addEventListener("DOMContentLoaded", function () {
             $productId = $row['id'];
             $productCategory = $row['category']; 
             $productPrice = $row['product_price'];
+            $quantity = $row['product_quantity'];
 
-            echo '<div class="product-card" data-category="' . $productCategory . '" data-price="' . $productPrice . '">';
-            echo '<img src="../images/' . $row["product_image"] . '" alt="' . $row["product_image"] . '" onclick="productDescription(' . $productId . ')">';
-            echo '<h5>' . $row["product_name"] . '</h5>';
-            echo '<h6>$' . $row["product_price"] . '</h6>';
-            echo '</div>';
+            if($quantity > 0) {
+                echo '<div class="product-card" data-category="' . $productCategory . '" data-price="' . $productPrice . '">';
+                echo '<img src="../images/' . $row["product_image"] . '" alt="' . $row["product_image"] . '" onclick="productDescription(' . $productId . ')">';
+                echo '<h5>' . $row["product_name"] . '</h5>';
+                echo '<h6>$' . $row["product_price"] . '</h6>';
+                echo '</div>';
+            } else {
+                echo '<div class="product-card" data-category="' . $productCategory . '" data-price="' . $productPrice . '">';
+                echo '<img src="../images/' . $row["product_image"] . '" alt="' . $row["product_image"] . '" onclick="productDescription(' . $productId . ')">';
+                echo '<h5>' . $row["product_name"] . '</h5>';
+                echo '<h6><b>Sold Out</b></h6>';
+                echo '</div>';
+            }
+            
         }
         ?>
         </div>

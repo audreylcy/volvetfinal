@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 07, 2023 at 09:56 AM
+-- Host: localhost
+-- Generation Time: Nov 07, 2023 at 04:01 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,29 +43,11 @@ CREATE TABLE `address` (
 
 INSERT INTO `address` (`address_id`, `user_email`, `address_1`, `address_2`, `state`, `postal`, `delivery_method`) VALUES
 (10, 'ruth142976@gmail.com', 'Kang Ching Road 339B', NULL, 'Singapore', 612339, 'standard'),
-(11, 'ruth142976@gmail.com', 'Kang Ching Road 339B', '#15-336', 'Singapore', 612339, 'standard');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cart`
---
-
-CREATE TABLE `cart` (
-  `cart_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `total` decimal(10,2) DEFAULT NULL,
-  `product_price` decimal(10,2) NOT NULL,
-  `session_id` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `product_id`, `quantity`, `total`, `product_price`, `session_id`) VALUES
-(56, 1, 1, 2100.00, 2100.00, '9mdvuat456onipebierlkio39h');
+(11, 'ruth142976@gmail.com', 'Kang Ching Road 339B', '#15-336', 'Singapore', 612339, 'standard'),
+(12, 'testing@gmail.com', '662 Choa Chu Kang Crescent #12-271', '#12-271', 'dfsds', 680662, 'Standard Shipping'),
+(13, 'eh@test.com', '662 Choa Chu Kang Crescent #12-271', '#12-271', 'da', 680662, 'Standard Shipping'),
+(14, 'testing@gmail.com', '662 Choa Chu Kang Crescent #12-271', '#12-271', 'Not applicable', 680662, 'Standard Shipping'),
+(15, 'testing@gmail.com', '17 CANBERRA DRIVE', '#13-34', 'Not applicable', 768074, 'Standard Shipping');
 
 -- --------------------------------------------------------
 
@@ -80,6 +62,17 @@ CREATE TABLE `checkout_details` (
   `total_price` decimal(10,2) DEFAULT NULL,
   `created_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `checkout_details`
+--
+
+INSERT INTO `checkout_details` (`checkout_id`, `user_email`, `address_id`, `total_price`, `created_at`) VALUES
+(33, 'testing@gmail.com', 12, 2245.00, '2023-11-07'),
+(34, 'eh@test.com', 13, 2745.00, '2023-11-07'),
+(35, 'testing@gmail.com', 14, 4200.00, '2023-11-07'),
+(36, 'testing@gmail.com', 15, 9945.00, '2023-11-07'),
+(37, 'testing@gmail.com', 15, 2100.00, '2023-11-07');
 
 -- --------------------------------------------------------
 
@@ -96,6 +89,13 @@ CREATE TABLE `orders` (
   `product_price` decimal(10,2) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `address_id`, `total`, `user_email`, `product_id`, `product_price`, `quantity`) VALUES
+(60, NULL, 2100.00, 'testing@gmail.com', 1, 2100.00, 1);
 
 -- --------------------------------------------------------
 
@@ -117,7 +117,16 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`order_id`, `checkout_id`, `product_id`, `quantity`, `subtotal`, `product_price`) VALUES
-(51273, 32, 2, 1, 2245.00, 2245.00);
+(51273, 32, 2, 1, 2245.00, 2245.00),
+(51274, 33, 2, 1, 2245.00, 2245.00),
+(51275, 34, 15, 1, 500.00, 500.00),
+(51276, 34, 2, 1, 2245.00, 2245.00),
+(51277, 35, 1, 1, 2100.00, 2100.00),
+(51278, 35, 1, 1, 2100.00, 2100.00),
+(51279, 36, 2, 1, 2245.00, 2245.00),
+(51280, 36, 2, 1, 2245.00, 2245.00),
+(51281, 36, 3, 1, 5455.00, 5455.00),
+(51282, 37, 1, 1, 2100.00, 2100.00);
 
 -- --------------------------------------------------------
 
@@ -170,6 +179,16 @@ CREATE TABLE `subscribers` (
   `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `subscribers`
+--
+
+INSERT INTO `subscribers` (`id`, `email`) VALUES
+(1, 'heyhey'),
+(2, 'audrey@gmail.com'),
+(3, 'yoohoo'),
+(4, 'yyyyy');
+
 -- --------------------------------------------------------
 
 --
@@ -189,7 +208,13 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `password`, `email`, `dob`) VALUES
 (1, '$2y$10$RMB7TQRMxxaIBJxfX5h75.YZUBAQLdMDEemfd4w2okMwl7B8XBNOi', 'ruth142976@gmail.com', '2023-10-14'),
-(2, '$2y$10$ktRY3OLcrUq0R8Kre1aHq.oDkshWVmCm9Bx8NtLd4gneTJ8PvcoTq', 'i200008@e.ntu.edu.sg', '2023-10-13');
+(2, '$2y$10$ktRY3OLcrUq0R8Kre1aHq.oDkshWVmCm9Bx8NtLd4gneTJ8PvcoTq', 'i200008@e.ntu.edu.sg', '2023-10-13'),
+(3, '$2y$10$Qm0B38rBKCee7PPujg9rhuLWgYWSM3Cvqzo7Sp1RmPEpkoS8tWpQG', 'testing@gmail.com', '2023-11-01'),
+(4, '$2y$10$.58CQ.fahuoAjWinJ.BNWuUl2MeBrPojLWDTgNlKfieiUIVOggpUS', 'test@gmail.com', '2023-11-01'),
+(5, '$2y$10$Ebn3qKuoMQsnN9hzjELR/eYB9TEefm16YT3f.N8bc22YPe4r2Zegi', 'fds@gmail.com', '2023-11-04'),
+(6, '$2y$10$SLNe1bgnNiz/2wgPkMzGD.bugVpzJnfY6xXrqrwtxv6zsacSzPtsW', 'pls@gmail.com', '2023-11-02'),
+(7, '$2y$10$ehh6ooWGXWtpr8jJWEJynuFTbk0gCxg.Z.ru3J3akd807Cj6B4qlO', 'eh@test.com', '2023-11-02'),
+(8, '$2y$10$wXJHuVgEMT719yop34kRjuEmzUAHJ1lgYjGoWJj5IXngc2fOp7cja', 'test2@gmail.com', '2023-11-02');
 
 --
 -- Indexes for dumped tables
@@ -200,12 +225,6 @@ INSERT INTO `users` (`id`, `password`, `email`, `dob`) VALUES
 --
 ALTER TABLE `address`
   ADD PRIMARY KEY (`address_id`);
-
---
--- Indexes for table `cart`
---
-ALTER TABLE `cart`
-  ADD PRIMARY KEY (`cart_id`);
 
 --
 -- Indexes for table `checkout_details`
@@ -252,31 +271,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `cart`
---
-ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `checkout_details`
 --
 ALTER TABLE `checkout_details`
-  MODIFY `checkout_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `checkout_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51274;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51283;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -288,13 +301,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `subscribers`
 --
 ALTER TABLE `subscribers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

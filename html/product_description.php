@@ -61,12 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
     else {
 
         $productId = $_POST['product_id'];
-        $quantity = 1; // Default quantity is 1
 
         $sql = "SELECT * FROM products WHERE id = $productId";
         $productResult = $conn->query($sql);
         $productRow = $productResult->fetch_assoc();
         $productPrice = $productRow['product_price'];
+        $quantity = $productRow['product_quantity'];
 
         
         // Check if the cart array exists in the session
@@ -101,33 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
             echo "Your cart is empty.";
         }
 
-        
 
-        
-        // $sessionId = session_id();
-        // $_SESSION['sessionId'] = $sessionId;
-        // $productId = $_POST['product_id'];
-        // $quantity = 1; 
-        // $totalPrice = 0;
-
-        // $checkCartQuery = "SELECT * FROM cart WHERE session_id = '$sessionId' AND product_id = $productId";
-        // $checkCartResult = $conn->query($checkCartQuery);
-
-        // if ($checkCartResult->num_rows > 0) {
-        //     echo '<script>alert("Product already added to cart!");</script>';
-        // } else {
-        //     $sql = "SELECT * FROM products WHERE id = $productId";
-        //     $productResult = $conn->query($sql);
-        //     $productRow = $productResult->fetch_assoc();
-
-        //     $total = $quantity * $productRow['product_price'];
-        //     $insertCartQuery = "INSERT INTO cart (session_id, product_id, quantity, total, product_price) VALUES ('$sessionId', {$productRow['id']}, $quantity, $total, {$productRow['product_price']})";
-        //     if ($conn->query($insertCartQuery) === TRUE) {
-        //         echo '<script>alert("Product added to cart!");</script>';
-        //     } else {
-        //         echo "Error: " . $insertCartQuery . "<br>" . $conn->error;
-        //     }
-        // }
     }
      
 }
@@ -238,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="product-deescription-top">
             <?php
                 if($row = mysqli_fetch_assoc($result)) {
+                    $quantity = $row['product_quantity'];
             ?>
             <div class="description-left">
                 <img class="main" src="../images/<?php echo $row["product_image"]?>">
@@ -250,10 +225,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="description-title" >
                     <h2><?php echo $row["product_name"]?></h2>
                     <h7 class="description-price" name="product_price" >$<?php echo $row["product_price"]?></h7>
-                    <p>Quantity: 1</p>
+                    <p>Quantity: <?php echo $row["product_quantity"]?></p>
+                    <?php
+                        if($quantity > 0) {
+                    ?>
                     <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
                     <span><input name="buy_now" type="submit" value="Buy Now"></span>
-                    
+                    <?php
+                        }else {
+
+                    ?>
+                        <span><input name="sold_out" type="button" value="Sold Out"></span>
+                    <?php
+                        }?>
                 </div>
                 <div class="description-details">
                     <h3>DETAILS</h3>
