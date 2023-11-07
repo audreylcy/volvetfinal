@@ -95,7 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //     window.location.href = 'product_description.php?id=' + productId;
         // }
         function productDescription(productId) {
-            alert('Product ID: ' + productId);
+            // Replace 'newpage.html' with the URL of the page you want to redirect to
+            window.location.href = 'product_description.php?id=' + productId;
         }
 
         //filter scripts 
@@ -305,7 +306,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="category-filter">   
                     <label>Categories</label><br>               
                     <label>
-                        <input type="checkbox" name="category" value="Clothes"> Clothes
+                        <input type="checkbox" name="category" value="Watch"> Watches
                     </label>
                     <label>
                         <input type="checkbox" name="category" value="Bag"> Bags
@@ -377,10 +378,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
                 <span class="subscribe-submit"><input type="submit" value="submit"></span>
             </form>
+            <div id="subscription-message-container" style="display: none;">
+            <p id="subscription-message"></p>
         </div>
-        <div id="subscription-message-container" style="display: none;">
-            <p id="subscription-message">Subscription message will appear here.</p>
         </div>
+
     </div>
     
     <div class="footer">

@@ -6,10 +6,10 @@ session_start();
 $sessionId = session_id();
 require 'connection.php';
 
-if (!isset($_SESSION['user_email'])) {
-    header('Location: login.html?error=notloggedin');
-    exit();
-}
+//if (!isset($_SESSION['user_email'])) {
+    //header('Location: login.php?error=notloggedin');
+    //exit();
+//}
 
 $user_email = $_SESSION['user_email'];
 
@@ -81,11 +81,20 @@ $checkoutResult = $conn -> query($checkoutQuery);
             </div>
             <div class="profile-address">
                 <h3>Addresses</h3>
-                <p id="address_1"><?php echo $addressRow['address_1']?></p>
-                <p id="address_2"><?php echo $addressRow['address_2']?></p>
-                <p id="postal"><?php echo $addressRow['postal']?></p>
-                <p id="state"><?php echo $addressRow['state']?></p>
-
+                <?php
+                    if ($addressResult->num_rows > 0){
+                ?>
+                    <p id="address_1"><?php echo $addressRow['address_1']?></p>
+                    <p id="address_2"><?php echo $addressRow['address_2']?></p>
+                    <p id="postal"><?php echo $addressRow['postal']?></p>
+                    <p id="state"><?php echo $addressRow['state']?></p>
+                <?php
+                } else {
+                ?>
+                    <p><?php echo "Address not found"; ?></p>
+                <?php
+                }
+                ?>
             </div>
         </div>
 

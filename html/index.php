@@ -58,9 +58,9 @@ $sessionId = session_id();
         <div class="categories">
         <div class="category">
             <a href="product.php?categories=Watch">
-            <p>Watch</p>
+            <p>Watches</p>
             </a>
-            <img src="../images/home_clothes.png">
+            <img src="../images/home_watches.png">
         </div>
         <div class="category">
             <a href="product.php?categories=Bag">
