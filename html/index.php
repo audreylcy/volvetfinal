@@ -57,31 +57,31 @@ $sessionId = session_id();
         <h1>CATEGORIES</h1>
         <div class="categories">
         <div class="category">
-            <a href="product.php?category=Watch">
+            <a href="product.php?categories=Watch">
             <p>Watch</p>
             </a>
             <img src="../images/home_clothes.png">
         </div>
         <div class="category">
-            <a href="product.php?category=Bag">
+            <a href="product.php?categories=Bag">
             <p>Bags</p>
             </a>
             <img src="../images/home_bags.png">
         </div>
         <div class="category">
-            <a href="product.php?category=Shoe">
+            <a href="product.php?categories=Shoe">
             <p>Shoes</p>
             </a>
             <img src="../images/home_shoes.png">
         </div>
         <div class="category">
-            <a href="product.php?category=Jewellery">
+            <a href="product.php?categories=Jewellery">
             <p>Jewellery</p>
             </a>
             <img src="../images/home_jewellery.png">
         </div>
         <div class="category">
-            <a href="product.php?category=Accessory">
+            <a href="product.php?categories=Accessory">
             <p>Accesories</p>
             </a>
             <img src="../images/home_accessories.png">

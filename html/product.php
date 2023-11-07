@@ -109,40 +109,98 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         function filterProducts() {
-        var selectedCategories = document.querySelectorAll('input[name="category"]:checked');
-        var selectedCategoryValues = Array.from(selectedCategories).map(input => input.value);
+            var selectedCategories = document.querySelectorAll('input[name="category"]:checked');
+            var selectedCategoryValues = Array.from(selectedCategories).map(input => input.value);
 
-        var minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
-        var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
+            var minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+            var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
 
-        var productCards = document.querySelectorAll('.product-card');
-        var noMatchingProducts = true; // Flag to track if no products match the filter criteria
+            var productCards = document.querySelectorAll('.product-card');
+            var noMatchingProducts = true; // Flag to track if no products match the filter criteria
 
-        for (var i = 0; i < productCards.length; i++) {
-            var category = productCards[i].getAttribute('data-category');
-            var price = parseFloat(productCards[i].getAttribute('data-price'));
+            for (var i = 0; i < productCards.length; i++) {
+                var category = productCards[i].getAttribute('data-category');
+                var price = parseFloat(productCards[i].getAttribute('data-price'));
 
-            var isCategoryMatch = selectedCategoryValues.length === 0 || selectedCategoryValues.includes(category);
-            var isPriceMatch = price >= minPrice && price <= maxPrice;
+                var isCategoryMatch = selectedCategoryValues.length === 0 || selectedCategoryValues.includes(category);
+                var isPriceMatch = price >= minPrice && price <= maxPrice;
 
-            if (isCategoryMatch && isPriceMatch) {
-                productCards[i].style.display = 'block';
-                noMatchingProducts = false; // Products match the filter, so set the flag to false
+                if (isCategoryMatch && isPriceMatch) {
+                    productCards[i].style.display = 'block';
+                    noMatchingProducts = false; // Products match the filter, so set the flag to false
+                } else {
+                    productCards[i].style.display = 'none';
+                }
+            }
+
+            // Display or hide the error message based on the flag
+            var errorMessage = document.getElementById('nofiltererror-message');
+            if (noMatchingProducts) {
+                errorMessage.style.display = 'block'; // Show the error message
             } else {
-                productCards[i].style.display = 'none';
+                errorMessage.style.display = 'none'; // Hide the error message
+            }
+
+            // Construct the new URL based on filters
+            var baseUrl = window.location.href.split('?')[0]; // Get the base URL
+            var params = new URLSearchParams();
+
+            if (selectedCategoryValues.length > 0) {
+                params.set('categories', selectedCategoryValues.join(','));
+            }
+            if (minPrice > 0) {
+                params.set('minPrice', minPrice);
+            }
+            if (maxPrice < Number.MAX_VALUE) {
+                params.set('maxPrice', maxPrice);
+            }
+
+            var newUrl = baseUrl + '?' + params.toString();
+
+            // Update the browser URL without refreshing the page
+            history.pushState(null, '', newUrl);
+
+            closeFilterModal();
+        }
+
+        // Function to apply filters based on URL parameters
+        function applyFiltersFromURL() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var selectedCategories = urlParams.getAll('categories');
+            var minPrice = parseFloat(urlParams.get('minPrice')) || 0;
+            var maxPrice = parseFloat(urlParams.get('maxPrice')) || Number.MAX_VALUE;
+
+            var productCards = document.querySelectorAll('.product-card');
+            var noMatchingProducts = true;
+
+            for (var i = 0; i < productCards.length; i++) {
+                var category = productCards[i].getAttribute('data-category');
+                var price = parseFloat(productCards[i].getAttribute('data-price'));
+
+                var isCategoryMatch = selectedCategories.length === 0 || selectedCategories.includes(category);
+                var isPriceMatch = price >= minPrice && price <= maxPrice;
+
+                if (isCategoryMatch && isPriceMatch) {
+                    productCards[i].style.display = 'block';
+                    noMatchingProducts = false;
+                } else {
+                    productCards[i].style.display = 'none';
+                }
+            }
+
+            // Display or hide the error message based on the flag
+            var errorMessage = document.getElementById('nofiltererror-message');
+            if (noMatchingProducts) {
+                errorMessage.style.display = 'block'; // Show the error message
+            } else {
+                errorMessage.style.display = 'none'; // Hide the error message
             }
         }
 
-        // Display or hide the error message based on the flag
-        var errorMessage = document.getElementById('nofiltererror-message');
-        if (noMatchingProducts) {
-            errorMessage.style.display = 'block'; // Show the error message
-        } else {
-            errorMessage.style.display = 'none'; // Hide the error message
-        }
+        // Call the function on page load to apply filters from URL parameters
+        window.onload = applyFiltersFromURL;
 
-        closeFilterModal();
-    }
+
 
 
         //search scripts
@@ -169,14 +227,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.addEventListener("DOMContentLoaded", function () {
             // Check if the session variable is set
             if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-                // Display the pop-up message
+                // Display the message in the subscription message container
                 var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
-                alert(subscriptionMessage);
+                var messageContainer = document.getElementById("subscription-message-container");
 
-                // Clear the session variable
+                if (messageContainer) {
+                    // Set the message and make the container visible
+                    messageContainer.innerHTML = subscriptionMessage;
+                    messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
+
+                    // Scroll to the position of the message container
+                    window.scrollTo({
+                        top: messageContainer.offsetTop,
+                        behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
+                    });
+                }
+
+                // Clear the session variable (if needed)
                 <?php unset($_SESSION["subscription_message"]); ?>;
             }
         });
+
+
     </script>
 
     <div class="navigation">
@@ -263,7 +335,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div id="nofiltererror-message" style="display: none;">
-        <p>No products match your filter criteria.</p>
+        <p>There are no products here.</p>
         </div>
         
         <div class="product-container">
@@ -303,6 +375,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
                 <span class="subscribe-submit"><input type="submit" value="submit"></span>
             </form>
+        </div>
+        <div id="subscription-message-container" style="display: none;">
+            <p id="subscription-message">Subscription message will appear here.</p>
         </div>
     </div>
     
