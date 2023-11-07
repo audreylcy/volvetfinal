@@ -1,8 +1,6 @@
 <?php 
 require_once 'connection.php';
 
-
-
 $query = "SELECT * FROM products";
 $result = $conn->query($query);
 
@@ -210,7 +208,6 @@ document.addEventListener("DOMContentLoaded", function () {
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="sale.html">SALE</a></li>
                 <li><a href="event.html">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
@@ -333,15 +330,14 @@ document.addEventListener("DOMContentLoaded", function () {
             <p id="subscription-message"></p>
         </div>
         </div>
-
     </div>
     
     <div class="footer">
         <img src="../images/Volvet.png" class="footer-logo">
         <ul>
-            <li><a>About Us</a><br></li>
-            <li><a>Shop ALL</a><br></li>
-            <li><a>FAQ</a><br></li>
+            <li><a href="aboutus.php">About Us</a><br></li>
+            <li><a href="product.php">Shop ALL</a><br></li>
+            <li><a href="faq.php">FAQ</a><br></li>
         </ul>
         <div class="footer-social">
             <img src="../images/icon_instagram.png">

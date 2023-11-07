@@ -47,6 +47,27 @@ $checkoutResult = $conn -> query($checkoutQuery);
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant+Garamond"/>
 </head>
 <body>
+    <script>
+        //search scripts
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+
+            searchInput.addEventListener("input", function() {
+                if (searchInput.value.trim() === "") {
+                    searchButton.disabled = true;
+                } else {
+                    searchButton.disabled = false;
+                }
+            });
+
+            searchButton.addEventListener("click", function() {
+                if (searchInput.value.trim() !== "") {
+                    document.getElementById("searchForm").submit();
+                }
+            });
+        });
+    </script>
     <div>   
         <p>Session ID: <?php echo $sessionId; ?></p>
     </div>
@@ -54,7 +75,6 @@ $checkoutResult = $conn -> query($checkoutQuery);
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="sale.html">SALE</a></li>
                 <li><a href="event.html">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
@@ -62,7 +82,12 @@ $checkoutResult = $conn -> query($checkoutQuery);
         <a class="nav-logo" href="index.php"><img  src="../images/Volvet.png"></a>
         
         <div class="right-nav">
-            <img src="../images/icon_search.png">
+        <div class="search-bar">
+            <form action="search.php" method="get" id="searchForm" class="search-form">
+                <input type="text" name="query" id="searchInput" placeholder="Search">
+                <button type="submit" id="searchButton" disabled><img src="../images/icon_search.png"></button>
+            </form>
+            </div>
             <a href="profile.php"><img src="../images/icon_profile.png"></a>
             <a href="cart.php"><img src="../images/icon_cart.png"></a>
         </div>
@@ -158,9 +183,9 @@ $checkoutResult = $conn -> query($checkoutQuery);
     <div class="footer">
         <img src="../images/Volvet.png" class="footer-logo">
         <ul>
-            <li><a>About Us</a><br></li>
-            <li><a>Shop ALL</a><br></li>
-            <li><a>FAQ</a><br></li>
+            <li><a href="aboutus.php">About Us</a><br></li>
+            <li><a href="product.php">Shop ALL</a><br></li>
+            <li><a href="faq.php">FAQ</a><br></li>
         </ul>
         <div class="footer-social">
             <img src="../images/icon_instagram.png">

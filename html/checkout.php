@@ -5,6 +5,8 @@ session_start();
 
 $sessionId = session_id();
 
+
+
 if (isset($_SESSION['user_email'])){
   $user_email = $_SESSION['user_email'];
 
@@ -82,7 +84,6 @@ if (isset($_SESSION['user_email'])){
         <nav>
             <ul>
                 <li><a href="product.php">SHOP ALL</a></li>
-                <li><a href="sale.html">SALE</a></li>
                 <li><a href="event.html">EVENTS</a></li>
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
@@ -90,7 +91,12 @@ if (isset($_SESSION['user_email'])){
         <a class="nav-logo" href="index.php"><img  src="../images/Volvet.png"></a>
         
         <div class="right-nav">
-            <img src="../images/icon_search.png">
+        <div class="search-bar">
+            <form action="search.php" method="get" id="searchForm" class="search-form">
+                <input type="text" name="query" id="searchInput" placeholder="Search">
+                <button type="submit" id="searchButton" disabled><img src="../images/icon_search.png"></button>
+            </form>
+            </div>
             <?php
             if (isset($_SESSION['user_email'])) {
                 // If the user is logged in, display the profile link
@@ -260,6 +266,26 @@ if (isset($_SESSION['user_email'])){
             // Disable the button if there are error messages
             checkoutButton.disabled = Array.from(errorMessages).some(element => element.textContent !== "");
         }
+
+        //search scripts
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+
+            searchInput.addEventListener("input", function() {
+                if (searchInput.value.trim() === "") {
+                    searchButton.disabled = true;
+                } else {
+                    searchButton.disabled = false;
+                }
+            });
+
+            searchButton.addEventListener("click", function() {
+                if (searchInput.value.trim() !== "") {
+                    document.getElementById("searchForm").submit();
+                }
+            });
+        });
     </script>
 </body>
 </html>
