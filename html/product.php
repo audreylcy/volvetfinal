@@ -7,6 +7,26 @@ $result = $conn->query($query);
 
 session_start();
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST["subscribe-email"];
+
+    // Check if the email already exists in the database
+    $sql = "SELECT * FROM subscribers WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        $_SESSION["subscription_message"] = "You are already subscribed!";
+    } else {
+        // Insert the new email into the database
+        $insertSql = "INSERT INTO subscribers (email) VALUES ('$email')";
+        if (mysqli_query($conn, $insertSql)) {
+            $_SESSION["subscription_message"] = "You have subscribed to our mailing list!";
+        } else {
+            $_SESSION["subscription_message"] = "An error occurred. Please try again later.";
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -144,6 +164,19 @@ session_start();
                 }
             });
         });
+
+        //subscribe scripts 
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if the session variable is set
+            if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
+                // Display the pop-up message
+                var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
+                alert(subscriptionMessage);
+
+                // Clear the session variable
+                <?php unset($_SESSION["subscription_message"]); ?>;
+            }
+        });
     </script>
 
     <div class="navigation">
@@ -266,9 +299,9 @@ session_start();
                 Get Social!
             </h4>
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
-            <form class="subscribe-form">
-                <span class="subscribe-email" ><input type="text" placeholder="Enter your email..."></span>
-                <span class="subscribe-submit"><input type="submit"  value="submit"></span>
+            <form class="subscribe-form" action="" method="post">
+                <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
+                <span class="subscribe-submit"><input type="submit" value="submit"></span>
             </form>
         </div>
     </div>
