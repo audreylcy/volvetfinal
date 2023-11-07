@@ -26,9 +26,7 @@ $sessionId = session_id();
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
-        <div class="nav-logo-container">
-            <img class="nav-logo" src="../images/Volvet.png">
-        </div>
+        <a class="nav-logo" href="index.php"><img  src="../images/Volvet.png"></a>
         
         <div class="right-nav">
             <img src="../images/icon_search.png">
@@ -50,44 +48,28 @@ $sessionId = session_id();
         <div class="faq-container">
             <div class="faq-label">How much is shipping?</div>
             <div class="faq-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
+                <p>Shipping costs vary depending on your location and the shipping method you choose during the checkout process. You can view the shipping options and their respective costs before finalizing your order.
                 </p>
             </div>
         </div>
         <div class="faq-container">
             <div class="faq-label">How long does delivery take?</div>
             <div class="faq-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
+                <p>The delivery time also depends on your location and the shipping method you select. Standard shipping typically takes a few business days, while expedited shipping may be faster. You will receive an estimated delivery date when you place your order.
                 </p>
             </div>
         </div>
         <div class="faq-container">
-            <div class="faq-label">Where do we delivery to?</div>
+            <div class="faq-label">Where do we deliver to?</div>
             <div class="faq-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
+                <p>We offer worldwide shipping to a wide range of destinations. During the checkout process, you can enter your address to confirm if we deliver to your location.
                 </p>
             </div>
         </div>
         <div class="faq-container">
             <div class="faq-label">Can I refund/exchange my items?</div>
             <div class="faq-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
+                <p>Yes, we have a return and exchange policy. If you are not satisfied with your purchase, you can request a refund or exchange within a specified period, typically within 30 days of receiving your order. Please review our detailed return and exchange policy on our website for more information.
                 </p>
             </div>
         </div>

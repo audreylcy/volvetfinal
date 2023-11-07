@@ -2,6 +2,7 @@
 require_once 'connection.php';
 
 
+
 $query = "SELECT * FROM products";
 $result = $conn->query($query);
 
@@ -40,54 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cormorant+Garamond"/>
 </head>
 <body>
-    <style>
-        .right-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        }
-        #nofiltererror-message {
-                padding: 0px 150px;
-            }
-        #searchInput {
-            width: 150px;
-            border: none; /* Remove the default border */
-            border-bottom: 1px solid var(--darkbrown); /* Add a bottom border */
-            background-color: var(--lightbrown);
-        }
-        .search-bar {
-        display: flex;
-        align-items: center;
-        }
-
-        #searchForm {
-            display: flex;
-            align-items: center;
-            border: none; /* Remove the form border */
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
-            background: none; /* Remove default background */
-        }
-        #searchInput {
-            border: none;
-            border-bottom: solid 1px var(--darkbrown);
-            width: 150px;
-            outline: none;
-            width: 150px; /* Set the width as needed */
-            margin-right: 10px; /* Add margin as needed */
-        }
-
-        #searchButton {
-          cursor: pointer;
-            border: none;
-            background: none;
-            padding: 0;
-        }
-
-        #searchButton img {
-            width: 25px; /* Set the image size as needed */
-        }
-  </style>
 
     <script>
         // JavaScript function to redirect to a new page
@@ -201,55 +154,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Call the function on page load to apply filters from URL parameters
-        window.onload = applyFiltersFromURL;
+        window.onload = applyFiltersFromURL;        
 
 
 
+//search scripts
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
 
-        //search scripts
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById("searchInput");
-            const searchButton = document.getElementById("searchButton");
+    searchInput.addEventListener("input", function() {
+        if (searchInput.value.trim() === "") {
+            searchButton.disabled = true;
+        } else {
+            searchButton.disabled = false;
+        }
+    });
 
-            searchInput.addEventListener("input", function() {
-                if (searchInput.value.trim() === "") {
-                    searchButton.disabled = true;
-                } else {
-                    searchButton.disabled = false;
-                }
+    searchButton.addEventListener("click", function() {
+        if (searchInput.value.trim() !== "") {
+            document.getElementById("searchForm").submit();
+        }
+    });
+});
+
+//subscribe scripts 
+document.addEventListener("DOMContentLoaded", function () {
+    // Check if the session variable is set
+    if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
+        // Display the message in the subscription message container
+        var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
+        var messageContainer = document.getElementById("subscription-message-container");
+
+        if (messageContainer) {
+            // Set the message and make the container visible
+            messageContainer.innerHTML = subscriptionMessage;
+            messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
+
+            // Scroll to the position of the message container
+            window.scrollTo({
+                top: messageContainer.offsetTop,
+                behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
             });
+        }
 
-            searchButton.addEventListener("click", function() {
-                if (searchInput.value.trim() !== "") {
-                    document.getElementById("searchForm").submit();
-                }
-            });
-        });
-
-        //subscribe scripts 
-        document.addEventListener("DOMContentLoaded", function () {
-            // Check if the session variable is set
-            if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-                // Display the message in the subscription message container
-                var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
-                var messageContainer = document.getElementById("subscription-message-container");
-
-                if (messageContainer) {
-                    // Set the message and make the container visible
-                    messageContainer.innerHTML = subscriptionMessage;
-                    messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
-
-                    // Scroll to the position of the message container
-                    window.scrollTo({
-                        top: messageContainer.offsetTop,
-                        behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
-                    });
-                }
-
-                // Clear the session variable (if needed)
-                <?php unset($_SESSION["subscription_message"]); ?>;
-            }
-        });
+        // Clear the session variable (if needed)
+        <?php unset($_SESSION["subscription_message"]); ?>;
+    }
+});
 
 
     </script>
@@ -263,9 +215,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
-        <div class="nav-logo-container">
-            <img class="nav-logo" src="../images/Volvet.png">
-        </div>
+
+        <a class="nav-logo" href="index.php"><img  src="../images/Volvet.png"></a>
         
         <div class="right-nav">
             <div class="search-bar">

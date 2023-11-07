@@ -43,10 +43,6 @@ body {
 
 }
 
-.nav-logo-container {
-    display: flex;
-    align-items: center;
-}
 
 .nav-logo {
     max-width: 95px;
@@ -59,12 +55,57 @@ body {
 .right-nav {
     display: flex;
     margin-left: auto;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .right-nav img {
     padding: 0px 18px;
     width: 25px;
     cursor: pointer;
+}
+
+/*search and filter style*/
+#nofiltererror-message {
+    padding: 0px 150px;
+}
+#searchInput {
+width: 150px;
+border: none; /* Remove the default border */
+border-bottom: 1px solid var(--darkbrown); /* Add a bottom border */
+background-color: var(--lightbrown);
+}
+.search-bar {
+display: flex;
+align-items: center;
+}
+
+#searchForm {
+display: flex;
+align-items: center;
+border: none; /* Remove the form border */
+margin: 0; /* Remove default margin */
+padding: 0; /* Remove default padding */
+background: none; /* Remove default background */
+}
+#searchInput {
+border: none;
+border-bottom: solid 1px var(--darkbrown);
+width: 150px;
+outline: none;
+width: 150px; /* Set the width as needed */
+margin-right: 10px; /* Add margin as needed */
+}
+
+#searchButton {
+cursor: pointer;
+border: none;
+background: none;
+padding: 0;
+}
+
+#searchButton img {
+width: 25px; /* Set the image size as needed */
 }
 
 /*login style*/
@@ -467,7 +508,7 @@ h8 {
 }
 
 .faq-label::before {
-    content: '⮟';
+    content: '+';
     position: absolute;
     right: 170px;
 }

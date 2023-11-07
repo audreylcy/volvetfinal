@@ -26,9 +26,7 @@ echo $sessionId;
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
-        <div class="nav-logo-container">
-            <img class="nav-logo" src="../images/Volvet.png">
-        </div>
+        <a class="nav-logo" href="index.php"><img  src="../images/Volvet.png"></a>
         
         <div class="right-nav">
             <img src="../images/icon_search.png">
@@ -70,15 +68,14 @@ echo $sessionId;
                         $total += $subtotal;
                     
                         // Insert product into the permanent database
-                        $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price)
-                                                VALUES ('$user_email', '$productId', '$quantity', '$subtotal', '$productPrice')";
-                                        
-                    
-                        // Execute the insert query
-                        if ($conn->query($transferItemsQuery) === TRUE) {
+                        if ($orderRow['product_id'] == $productId){
                             unset($_SESSION['cart']);
                         } else {
-                            echo "Error: " . $transferItemsQuery . "<br>" . $conn->error;
+                            $transferItemsQuery = "INSERT INTO orders (user_email, product_id, quantity, total, product_price)
+                                                VALUES ('$user_email', '$productId', '$quantity', '$subtotal', '$productPrice')";
+                            if ($conn->query($transferItemsQuery) === TRUE) {
+                                unset($_SESSION['cart']);
+                            }
                         }
                     }
                 }
@@ -146,6 +143,11 @@ echo $sessionId;
                     </div>
                 </td>            
                 <td class="cart-product-price">$<?php echo $orderRow['product_price']; ?></td>
+                <td class="cart-product-delete"> 
+                    <form>
+                    <button class="delete-button" type="submit">X</button> 
+                    </form>
+                </td>
                 </tr>
                 <?php  }
                 ?>

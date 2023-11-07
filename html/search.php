@@ -20,54 +20,6 @@ if (isset($_GET['query'])) {
 </head>
 
 <body>
-        <style>
-            .right-nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            }
-            #nofiltererror-message {
-                padding: 0px 150px;
-            }
-            #searchInput {
-                width: 150px;
-                border: none;
-                border-bottom: 1px solid var(--darkbrown);
-                background-color: var(--lightbrown);
-            }
-            .search-bar {
-            display: flex;
-            align-items: center;
-            }
-
-            #searchForm {
-                display: flex;
-                align-items: center;
-                border: none;
-                margin: 0;
-                padding: 0;
-                background: none;
-            }
-            #searchInput {
-                border: none;
-                border-bottom: solid 1px var(--darkbrown);
-                width: 150px;
-                outline: none;
-                width: 150px;
-                margin-right: 10px;
-            }
-
-            #searchButton {
-              cursor: pointer;
-                border: none;
-                background: none;
-                padding: 0;
-            }
-
-            #searchButton img {
-                width: 25px;
-            }
-        </style>
         
         <script>
             // JavaScript function to redirect to a new page
@@ -154,9 +106,7 @@ if (isset($_GET['query'])) {
                     <li><a href="faq.php">FAQ</a></li>
                 </ul>
             </nav>
-            <div class="nav-logo-container">
-                <img class="nav-logo" src="../images/Volvet.png">
-            </div>
+            <a class="nav-logo" href="index.php"><img  src="../images/Volvet.png"></a>
             
             <div class="right-nav">
                 <div class="search-bar">

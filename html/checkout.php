@@ -87,9 +87,7 @@ if (isset($_SESSION['user_email'])){
                 <li><a href="faq.php">FAQ</a></li>
             </ul>
         </nav>
-        <div class="nav-logo-container">
-            <img class="nav-logo" src="../images/Volvet.png">
-        </div>
+        <a class="nav-logo" href="index.php"><img  src="../images/Volvet.png"></a>
         
         <div class="right-nav">
             <img src="../images/icon_search.png">
