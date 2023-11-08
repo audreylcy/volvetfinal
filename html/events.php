@@ -73,23 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["email"]) && isset($_PO
     <script>
         //event scripts
        
-    // Display the registration message
-    document.addEventListener("DOMContentLoaded", function () {
-        // Check if the session variable is set
-        if ("registration_message" in <?php echo json_encode($_SESSION); ?>) {
-            // Display the message in the registration message container
-            var registrationMessage = <?php echo json_encode($_SESSION["registration_message"]); ?>;
-            var messageContainer = document.getElementById("registration-message");
 
-            if (messageContainer) {
-                // Set the message
-                messageContainer.textContent = registrationMessage;
-            }
-
-            // Clear the session variable (if needed)
-            <?php unset($_SESSION["registration_message"]); ?>;
-        }
-    });
 
 
         //subscribe scripts 
@@ -197,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </h4>
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
-                <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
+                <span class="subscribe-email" ><input type="email" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
                 <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">

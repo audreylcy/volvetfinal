@@ -148,7 +148,7 @@ require 'connection.php';
 
         // Check if password contains at least one alphabet, one digit, and one special character
         if (!alphabetRegex.test(password) || !digitRegex.test(password) || !specialCharRegex.test(password) || password.length < 8) {
-            passwordError.textContent = "Password must have at least 1 digit & 1 special character.";
+            passwordError.textContent = "Password must have 8 characters, 1 digit & 1 special character.";
         } else {
             passwordError.textContent = "";
         }

@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     
         <div class="product">
             <div class="product-top">
-                <h1>SEARCH RESULTS</h1>
+                <h1>SEARCH RESULTS: <?php echo $searchQuery; ?></h1>
                 <div class="product-top-right">
                 <?php
                 if ($result->num_rows > 0) {
@@ -182,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
                         <div class="category-filter">   
                             <label>Categories</label><br>               
                             <label>
-                                <input type="checkbox" name="category" value="Clothes"> Clothes
+                                <input type="checkbox" name="category" value="Watch"> Watches
                             </label>
                             <label>
                                 <input type="checkbox" name="category" value="Bag"> Bags
@@ -208,7 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
                     </div>
                     <div class="filter-buttons">
                         <input type="button" class="applyfilterButton" value="Apply Filter" onclick="filterProducts()">
-                        <input type="button" class="cancelfilterButton" value="Cancel" onclick="closeFilterModal()">
+
                     </div>
                 </div>
             </div>
@@ -247,7 +247,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
             </h4>
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
-                <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
+                <span class="subscribe-email" ><input type="email" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
                 <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">

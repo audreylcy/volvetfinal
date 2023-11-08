@@ -76,13 +76,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
 
         // Check if the product is already in the cart
         if (array_key_exists($productId, $_SESSION['cart'])) {
-            echo '<script>alert("Product already added to cart!heyyyyy");</script>'; 
+            echo '<script>alert("Product already added to cart!");</script>'; 
 
         } else {
             $_SESSION['cart'][$productId] = array(
                 'quantity' => $quantity,
                 'product_price' => $productPrice);
-            echo '<script>alert("Product added to cart!helllloooo");</script>';
+            echo '<script>alert("Product added to cart!");</script>';
         }
 
         // Check if the cart array exists in the session
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
                 $productRow = $productResult->fetch_assoc();
                 $productPrice = $productRow['product_price'];
 
-                echo "Product ID: $productId, Quantity: $quantity, Price: $productPrice<br>";
+                
             }
         } else {
             echo "Your cart is empty.";
@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </h4>
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
-                <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
+                <span class="subscribe-email" ><input type="email" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
                 <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">

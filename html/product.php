@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="filter-buttons">
                     <input type="button" class="applyfilterButton" value="Apply Filter" onclick="filterProducts()">
-                    <input type="button" class="cancelfilterButton" value="Cancel" onclick="closeFilterModal()">
+
             </div>
             </div>
         </div>
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </h4>
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
-                <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
+                <span class="subscribe-email" ><input type="email" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
                 <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">

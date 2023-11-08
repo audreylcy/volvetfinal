@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     $clearCartResult = $conn-> query($clearCartQuery);
 
                     if ($clearCartResult) {
-                        echo '<script>alert("deleted");</script>';
+                        echo '<script>alert("Product is removed from cart");</script>';
                     }
                     
                 }
@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
                     if (isset($_SESSION['cart'][$productId])) {
                         unset($_SESSION['cart'][$productId]);
-                        echo '<script>alert("deleted");</script>';
+                        echo '<script>alert("Product is removed from cart");</script>';
     
                         if (empty($_SESSION['cart'])) {
             ?>
@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </h4>
             <p>Discover Luxury, Renewed: Subscribe to Our Newsletter for Exclusive Updates on Second-Hand Designer Finds. </p>
             <form class="subscribe-form" action="" method="post">
-                <span class="subscribe-email" ><input type="text" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
+                <span class="subscribe-email" ><input type="email" name="subscribe-email" id="subscribe-email" placeholder="Enter your email..."></span>
                 <span class="subscribe-submit"><input type="submit" name="subscribebutton" value="Submit"></span>
             </form>
             <div id="subscription-message-container" style="display: none;">
