@@ -4,22 +4,25 @@ require_once 'connection.php';
 if (isset($_GET['query'])) {
     $searchQuery = $_GET['query'];
 
-    // Perform a database query based on the search query
+    // DB query based on the search 
     $query = "SELECT * FROM products WHERE product_name LIKE '%$searchQuery%'OR category LIKE '%$searchQuery%'";
     $result = $conn->query($query);
     
 }
+
+
+//subscribe check useremail
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
 
-    // Check if the email already exists in the database
+    // check email in db
     $sql = "SELECT * FROM subscribers WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         $_SESSION["subscription_message"] = "You are already subscribed!";
     } else {
-        // Insert the new email into the database
+        // insert email
         $insertSql = "INSERT INTO subscribers (email) VALUES ('$email')";
         if (mysqli_query($conn, $insertSql)) {
             $_SESSION["subscription_message"] = "You have subscribed to our mailing list!";
@@ -42,9 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
 <body>
         
         <script>
-            // JavaScript function to redirect to a new page
             function productDescription(productId) {
-                // Replace 'newpage.html' with the URL of the page you want to redirect to
                 window.location.href = 'product_description.php?id=' + productId;
             }
     
@@ -67,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
             var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
 
             var productCards = document.querySelectorAll('.product-card');
-            var noMatchingProducts = true; // Flag to track if no products match the filter criteria
+            var noMatchingProducts = true; 
 
             for (var i = 0; i < productCards.length; i++) {
                 var category = productCards[i].getAttribute('data-category');
@@ -78,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
 
                 if (isCategoryMatch && isPriceMatch) {
                     productCards[i].style.display = 'block';
-                    noMatchingProducts = false; // Products match the filter, so set the flag to false
+                    noMatchingProducts = false; 
                 } else {
                     productCards[i].style.display = 'none';
                 }
@@ -116,27 +117,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
                 });
             });
 
-            //subscribe scripts 
+        //subscribe scripts 
         document.addEventListener("DOMContentLoaded", function () {
-            // Check if the session variable is set
             if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-                // Display the message in the subscription message container
                 var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
                 var messageContainer = document.getElementById("subscription-message-container");
 
                 if (messageContainer) {
-                    // Set the message and make the container visible
+                    // container visible
                     messageContainer.innerHTML = subscriptionMessage;
-                    messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
+                    messageContainer.style.display = "block"; 
 
-                    // Scroll to the position of the message container
+                    // scroll to position of the message container
                     window.scrollTo({
                         top: messageContainer.offsetTop,
-                        behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
+                        behavior: "smooth" 
                     });
                 }
 
-                // Clear the session variable (if needed)
+                // clear the session variable 
                 <?php unset($_SESSION["subscription_message"]); ?>;
             }
         });
@@ -159,7 +158,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
                     <button type="submit" id="searchButton" disabled><img src="../images/icon_search.png"></button>
                 </form>
                 </div>
-                <a href="profile.php"><img src="../images/icon_profile.png"></a>
+                <?php
+            if (isset($_SESSION['user_email'])) {
+
+                echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
+            } else {
+
+                echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
+            }
+            ?>
                 <a href="cart.php"><img src="../images/icon_cart.png"></a>
             </div>
         </div>
@@ -221,7 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
             <?php 
             if ($result->num_rows > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    // Display the search results
+
                     echo '<div class="product-card" data-category="' . $row['category'] . '" data-price="' . $row['product_price'] . '">';
                     echo '<img src="../images/' . $row['product_image'] . '" alt="' . $row['product_image'] . '" onclick="productDescription(' . $row['id'] . ')">';
                     echo '<h5>' . $row['product_name'] . '</h5>';
@@ -229,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
                     echo '</div>';
                 }
             } else {
-                // No rows found, display a message
+
                 echo '<p class="nosearchresultsmsg">Sorry, no items were found that matched your search. 
                 Please try using more general search terms. You can view all our products in our Shop All tab.</p>';
             }

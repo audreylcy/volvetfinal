@@ -6,17 +6,18 @@ $result = $conn->query($query);
 
 session_start();
 
+//subscribe check useremail
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
 
-    // Check if the email already exists in the database
+    // check email in db
     $sql = "SELECT * FROM subscribers WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         $_SESSION["subscription_message"] = "You are already subscribed!";
     } else {
-        // Insert the new email into the database
+        // insert email
         $insertSql = "INSERT INTO subscribers (email) VALUES ('$email')";
         if (mysqli_query($conn, $insertSql)) {
             $_SESSION["subscription_message"] = "You have subscribed to our mailing list!";
@@ -43,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     <script>
         
         function productDescription(productId) {
-            // Replace 'newpage.html' with the URL of the page you want to redirect to
+
             window.location.href = 'product_description.php?id=' + productId;
         }
 
@@ -67,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
             var maxPrice = parseFloat(document.getElementById('maxPrice').value) || Number.MAX_VALUE;
 
             var productCards = document.querySelectorAll('.product-card');
-            var noMatchingProducts = true; // Flag to track if no products match the filter criteria
+            var noMatchingProducts = true; 
 
             for (var i = 0; i < productCards.length; i++) {
                 var category = productCards[i].getAttribute('data-category');
@@ -78,22 +79,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
 
                 if (isCategoryMatch && isPriceMatch) {
                     productCards[i].style.display = 'block';
-                    noMatchingProducts = false; // Products match the filter, so set the flag to false
+                    noMatchingProducts = false; 
                 } else {
                     productCards[i].style.display = 'none';
                 }
             }
 
-            // Display or hide the error message based on the flag
+
             var errorMessage = document.getElementById('nofiltererror-message');
             if (noMatchingProducts) {
-                errorMessage.style.display = 'block'; // Show the error message
+                errorMessage.style.display = 'block'; 
             } else {
-                errorMessage.style.display = 'none'; // Hide the error message
+                errorMessage.style.display = 'none'; 
             }
 
             // Construct the new URL based on filters
-            var baseUrl = window.location.href.split('?')[0]; // Get the base URL
+            var baseUrl = window.location.href.split('?')[0]; 
             var params = new URLSearchParams();
 
             if (selectedCategoryValues.length > 0) {
@@ -139,16 +140,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
                 }
             }
 
-            // Display or hide the error message based on the flag
+
             var errorMessage = document.getElementById('nofiltererror-message');
             if (noMatchingProducts) {
-                errorMessage.style.display = 'block'; // Show the error message
+                errorMessage.style.display = 'block'; 
             } else {
-                errorMessage.style.display = 'none'; // Hide the error message
+                errorMessage.style.display = 'none'; 
             }
         }
 
-        // Call the function on page load to apply filters from URL parameters
+
         window.onload = applyFiltersFromURL;        
 
 
@@ -172,31 +173,28 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+        //subscribe scripts 
+        document.addEventListener("DOMContentLoaded", function () {
+            if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
+                var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
+                var messageContainer = document.getElementById("subscription-message-container");
 
-//subscribe scripts 
-document.addEventListener("DOMContentLoaded", function () {
-    // Check if the session variable is set
-    if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-        // Display the message in the subscription message container
-        var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
-        var messageContainer = document.getElementById("subscription-message-container");
+                if (messageContainer) {
+                    // container visible
+                    messageContainer.innerHTML = subscriptionMessage;
+                    messageContainer.style.display = "block"; 
 
-        if (messageContainer) {
-            // Set the message and make the container visible
-            messageContainer.innerHTML = subscriptionMessage;
-            messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
+                    // scroll to position of the message container
+                    window.scrollTo({
+                        top: messageContainer.offsetTop,
+                        behavior: "smooth" 
+                    });
+                }
 
-            // Scroll to the position of the message container
-            window.scrollTo({
-                top: messageContainer.offsetTop,
-                behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
-            });
-        }
-
-        // Clear the session variable (if needed)
-        <?php unset($_SESSION["subscription_message"]); ?>;
-    }
-});
+                // clear the session variable 
+                <?php unset($_SESSION["subscription_message"]); ?>;
+            }
+        });
 
 
     </script>
@@ -222,10 +220,10 @@ document.addEventListener("DOMContentLoaded", function () {
             
             <?php
             if (isset($_SESSION['user_email'])) {
-                // If the user is logged in, display the profile link
+
                 echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
             } else {
-                // If the user is not logged in, display a login link
+
                 echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
             }
             ?>
@@ -241,9 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <input type="button" value="Filter" onclick="openFilterModal()">
             </span>
             </div>
-        </div>
-
-        
+        </div>  
         <div id="filterModal" class="filtermodal" style="display: none;">
             <div class="modal-content">
 
@@ -281,7 +277,6 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             </div>
         </div>
-
         <div id="nofiltererror-message" style="display: none;">
         <p>There are no products here.</p>
         </div>

@@ -1,5 +1,5 @@
 <?php
-// Start the session at the beginning of your script
+
 require_once 'connection.php';
 session_start();
 
@@ -102,10 +102,10 @@ if (isset($_SESSION['user_email'])){
             </div>
             <?php
             if (isset($_SESSION['user_email'])) {
-                // If the user is logged in, display the profile link
+
                 echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
             } else {
-                // If the user is not logged in, display a login link
+
                 echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
             }
             ?>

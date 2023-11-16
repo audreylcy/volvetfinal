@@ -2,12 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Start the session
 session_start();
 
 $sessionId = session_id();
 
-// Include your database connection code here
 require 'connection.php';
 
 

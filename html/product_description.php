@@ -11,17 +11,18 @@ if(isset($_GET['id'])) {
 $query = "SELECT * FROM products ORDER BY RAND() LIMIT 4"; // Order the results randomly
 $viewproduct = mysqli_query($conn, $query);
 
+//subscribe check useremail
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
 
-    // Check if the email already exists in the database
+    // check email in db
     $sql = "SELECT * FROM subscribers WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         $_SESSION["subscription_message"] = "You are already subscribed!";
     } else {
-        // Insert the new email into the database
+        // insert email
         $insertSql = "INSERT INTO subscribers (email) VALUES ('$email')";
         if (mysqli_query($conn, $insertSql)) {
             $_SESSION["subscription_message"] = "You have subscribed to our mailing list!";
@@ -123,33 +124,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["buy_now"])) {
     <script>
 
         //subscribe scripts 
-document.addEventListener("DOMContentLoaded", function () {
-    // Check if the session variable is set
-    if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-        // Display the message in the subscription message container
-        var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
-        var messageContainer = document.getElementById("subscription-message-container");
+        document.addEventListener("DOMContentLoaded", function () {
+            if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
+                var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
+                var messageContainer = document.getElementById("subscription-message-container");
 
-        if (messageContainer) {
-            // Set the message and make the container visible
-            messageContainer.innerHTML = subscriptionMessage;
-            messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
+                if (messageContainer) {
+                    // container visible
+                    messageContainer.innerHTML = subscriptionMessage;
+                    messageContainer.style.display = "block"; 
 
-            // Scroll to the position of the message container
-            window.scrollTo({
-                top: messageContainer.offsetTop,
-                behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
-            });
-        }
+                    // scroll to position of the message container
+                    window.scrollTo({
+                        top: messageContainer.offsetTop,
+                        behavior: "smooth" 
+                    });
+                }
 
-        // Clear the session variable (if needed)
-        <?php unset($_SESSION["subscription_message"]); ?>;
-    }
-});
+                // clear the session variable 
+                <?php unset($_SESSION["subscription_message"]); ?>;
+            }
+        });
 
-        // JavaScript function to redirect to a new page
+
         function productDescription(productId) {
-            // Replace 'newpage.html' with the URL of the page you want to redirect to
+
             window.location.href = 'product_description.php?id=' + productId;
         }
 
@@ -197,10 +196,10 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <?php
             if (isset($_SESSION['user_email'])) {
-                // If the user is logged in, display the profile link
+
                 echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
             } else {
-                // If the user is not logged in, display a login link
+
                 echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
             }
             ?>

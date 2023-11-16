@@ -6,17 +6,18 @@ session_start();
 $sessionId = session_id();
 
 
+//subscribe check useremail
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["subscribebutton"])) {
     $email = $_POST["subscribe-email"];
 
-    // Check if the email already exists in the database
+    // check email in db
     $sql = "SELECT * FROM subscribers WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
         $_SESSION["subscription_message"] = "You are already subscribed!";
     } else {
-        // Insert the new email into the database
+        // insert email
         $insertSql = "INSERT INTO subscribers (email) VALUES ('$email')";
         if (mysqli_query($conn, $insertSql)) {
             $_SESSION["subscription_message"] = "You have subscribed to our mailing list!";
@@ -87,25 +88,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         //subscribe scripts 
         document.addEventListener("DOMContentLoaded", function () {
-            // Check if the session variable is set
             if ("subscription_message" in <?php echo json_encode($_SESSION); ?>) {
-                // Display the message in the subscription message container
                 var subscriptionMessage = <?php echo json_encode($_SESSION["subscription_message"]); ?>;
                 var messageContainer = document.getElementById("subscription-message-container");
 
                 if (messageContainer) {
-                    // Set the message and make the container visible
+                    // container visible
                     messageContainer.innerHTML = subscriptionMessage;
-                    messageContainer.style.display = "block"; // or "inline", "inline-block", etc. depending on your layout needs
+                    messageContainer.style.display = "block"; 
 
-                    // Scroll to the position of the message container
+                    // scroll to position of the message container
                     window.scrollTo({
                         top: messageContainer.offsetTop,
-                        behavior: "smooth" // This makes it a smooth scroll; use "auto" for an instant scroll
+                        behavior: "smooth" 
                     });
                 }
 
-                // Clear the session variable (if needed)
+                // clear the session variable 
                 <?php unset($_SESSION["subscription_message"]); ?>;
             }
         });
@@ -129,10 +128,10 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <?php
             if (isset($_SESSION['user_email'])) {
-                // If the user is logged in, display the profile link
+  
                 echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
             } else {
-                // If the user is not logged in, display a login link
+    
                 echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
             }
             ?>
@@ -376,10 +375,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="cart-buttons">
             <?php
                 if (isset($_SESSION['user_email'])) {
-                    // If the user is logged in, display the "Buy Now" button with a link to checkout.php
+   
                     echo '<a href="checkout.php"><button class="buy-now-button">Buy Now</button></a>';
                 } else {
-                    // If the user is not logged in, display the "Buy Now" button with a link to the login page
+
                     echo '<a href="login.php"><button class="buy-now-button">Buy Now</button></a>';
                 }
                 ?>

@@ -13,17 +13,17 @@ if (!isset($_SESSION['user_email'])) {
 
 $user_email = $_SESSION['user_email'];
 
-// Create an SQL query to fetch user information
+//fetch user info
 $sql = "SELECT email, dob FROM users WHERE email = '$user_email'";
 
-// Execute the query
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // Fetch the user's information
+    // fetch userinfo
     $userData = $result->fetch_assoc();
 } else {
-    // Handle the case where the user's data is not found
+    // data not found
     die("User not found");
 }
 

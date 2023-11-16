@@ -2,12 +2,11 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Start the session
+
 session_start();
 
 $sessionId = session_id();
 
-// Include your database connection code here
 require 'connection.php';
 
 
@@ -44,10 +43,10 @@ require 'connection.php';
             </div>
             <?php
             if (isset($_SESSION['user_email'])) {
-                // If the user is logged in, display the profile link
+
                 echo '<a href="profile.php"><img src="../images/icon_profile.png"></a>';
             } else {
-                // If the user is not logged in, display a login link
+
                 echo '<a href="login.php"><img src="../images/icon_profile.png"></a>';
             }
             ?>
@@ -141,12 +140,12 @@ require 'connection.php';
         const password = document.getElementById("password").value;
         const passwordError = document.getElementById("passwordError");
 
-        // Regular expressions for alphabets, digits, and special characters
+
         const alphabetRegex = /[a-zA-Z]/;
         const digitRegex = /\d/;
         const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
 
-        // Check if password contains at least one alphabet, one digit, and one special character
+
         if (!alphabetRegex.test(password) || !digitRegex.test(password) || !specialCharRegex.test(password) || password.length < 8) {
             passwordError.textContent = "Password must have 8 characters, 1 digit & 1 special character.";
         } else {
